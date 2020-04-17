@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Temp</title>
+
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script src="pgame_canvas_sp.js"></script>
+    <script src="pgame_main.js"></script>
+
+    <script>
+      var canvas, stage, images, lib;
+      var type = 1;
+
+      function init() {
+      	canvas = document.getElementById("canvas");
+        images = images||{};
+
+        // PCの番号
+        var comp = AdobeAn.getComposition("235237728A5628459F398B3B054DFB64");
+
+        if (!comp) {
+          throw Error('IDが違います。pgame_canvas_sp.js の中でIDを確認して下さい[pgame_sp.html L20]');
+        }
+
+        images = comp.getImages();
+        lib = comp.getLibrary();
+
+      	var loader = new createjs.LoadQueue(false);
+        loader.addEventListener("fileload", handleFileLoad);
+        loader.addEventListener("complete", handleComplete);
+        loader.loadManifest(lib.properties.manifest);
+      }
+
+      function handleFileLoad (evt) {
+        if (evt && (evt.item.type == "image")) {
+          images[evt.item.id] = evt.result;
+        }
+      }
+
+      function handleComplete (evt) {
+        stage = new lib.Stage(canvas);
+        stage.update();
+
+        createjs.Touch.enable(stage);
+        createjs.Ticker.setFPS(lib.properties.fps);
+        createjs.Ticker.addEventListener("tick", stage);
+
+        initGame(stage);
+      }
+
+      function playSound (id, loop) {
+        createjs.Sound.play(id, createjs.Sound.INTERRUPT_EARLY, 0, 0, loop);
+      }
+
+      var game;
+
+      function initGame (stg) {
+        Game = window.Game;
+        game = new Game(stg, type);
+      }
+
+    </script>
+</head>
+
+<body onload="init();" style="background-color:#D4D4D4">
+<canvas id="canvas" width="640" height="960"
+        style="background-color:#666666; -webkit-tap-highlight-color:rgba(0,0,0,0); -webkit-user-select:none"></canvas>
+</body>
+
+</html>
