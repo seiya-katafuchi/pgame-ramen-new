@@ -34,6 +34,21 @@ declare module lib {
 	//ヘルプシート
 	export class helpsheet extends createjs.MovieClip {
 	}
+	//リスタートボタン
+	export class restartButton extends createjs.MovieClip {
+	}
+	//ラインボタン
+	export class lineButton extends createjs.MovieClip {
+	}
+	//フェイスブックボタン
+	export class facebookButton extends createjs.MovieClip {
+	}
+	//リザルトシート
+	export class resultSheet extends createjs.MovieClip {
+		//ゲームシーン→リザルトシート→テキストで取得できる
+		ClearCountText : createjs.Text;
+		ScoreText : createjs.Text;
+	}
 	
 	export class PageTop extends createjs.MovieClip {
 		botan:botan;
@@ -48,13 +63,19 @@ declare module lib {
     btnMinus: BtnMinus;
 	textScore: createjs.Text;
 	/*追加*/
-	textScore2 : createjs.Text; 
-	
+	CountDown : createjs.Text;
+	SuccessCount : createjs.Text;
+	ScoreText : createjs.Text;
   }
   
   export class PageResult extends createjs.MovieClip {
     btnNext: BtnNext;
-    btnBack: BtnBack;
+	btnBack: BtnBack;
+	/*追加*/
+	resultSheet : resultSheet;
+	restartButton : restartButton;
+	lineButton : lineButton;
+	facebookButton : facebookButton;
   }
 
 }
