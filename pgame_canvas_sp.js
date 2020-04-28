@@ -53,6 +53,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_2},{t:this.shape_1}]}).wait(4));
 
+	this._renderFirstFrame();
+
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(0,0,100,30);
 
@@ -91,6 +93,8 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,30);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_5},{t:this.shape_4},{t:this.shape_3},{t:this.shape_2},{t:this.shape_1}]}).wait(4));
 
+	this._renderFirstFrame();
+
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(0,0,100,30);
 
@@ -116,6 +120,8 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,30);
 	this.shape_2.setTransform(50,15);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_2},{t:this.shape_1}]}).wait(4));
+
+	this._renderFirstFrame();
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(0,0,100,30);
@@ -155,6 +161,8 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,30);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_5},{t:this.shape_4},{t:this.shape_3},{t:this.shape_2},{t:this.shape_1}]}).wait(4));
 
+	this._renderFirstFrame();
+
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(0,0,100,30);
 
@@ -165,13 +173,11 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,30);
 	// Component
 	this.btnBack = new lib.BtnBack();
 	this.btnBack.name = "btnBack";
-	this.btnBack.parent = this;
 	this.btnBack.setTransform(170,700);
 	new cjs.ButtonHelper(this.btnBack, 0, 1, 2, false, new lib.BtnBack(), 3);
 
 	this.btnNext = new lib.BtnNext();
 	this.btnNext.name = "btnNext";
-	this.btnNext.parent = this;
 	this.btnNext.setTransform(370,700);
 	new cjs.ButtonHelper(this.btnNext, 0, 1, 2, false, new lib.BtnNext(), 3);
 
@@ -188,7 +194,6 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,30);
 	this.shape_2.setTransform(277.85,241.55);
 
 	this.instance = new lib.neko3();
-	this.instance.parent = this;
 	this.instance.setTransform(220,380,0.0667,0.0667);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance},{t:this.shape_2},{t:this.shape_1},{t:this.shape},{t:this.btnNext},{t:this.btnBack}]}).wait(1));
@@ -200,6 +205,8 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,30);
 
 	this.timeline.addTween(cjs.Tween.get(this.shape_3).wait(1));
 
+	this._renderFirstFrame();
+
 }).prototype = getMCSymbolPrototype(lib.PageTop, new cjs.Rectangle(0,0,640,960), null);
 
 
@@ -209,13 +216,11 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,30);
 	// Component
 	this.btnBack = new lib.BtnBack();
 	this.btnBack.name = "btnBack";
-	this.btnBack.parent = this;
 	this.btnBack.setTransform(170,700);
 	new cjs.ButtonHelper(this.btnBack, 0, 1, 2, false, new lib.BtnBack(), 3);
 
 	this.btnNext = new lib.BtnNext();
 	this.btnNext.name = "btnNext";
-	this.btnNext.parent = this;
 	this.btnNext.setTransform(370,700);
 	new cjs.ButtonHelper(this.btnNext, 0, 1, 2, false, new lib.BtnNext(), 3);
 
@@ -252,6 +257,8 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,30);
 
 	this.timeline.addTween(cjs.Tween.get(this.shape_6).wait(1));
 
+	this._renderFirstFrame();
+
 }).prototype = getMCSymbolPrototype(lib.PageResult, new cjs.Rectangle(0,0,640,960), null);
 
 
@@ -268,25 +275,21 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,30);
 
 	this.btnPlus = new lib.BtnPlus();
 	this.btnPlus.name = "btnPlus";
-	this.btnPlus.parent = this;
 	this.btnPlus.setTransform(328,529.8);
 	new cjs.ButtonHelper(this.btnPlus, 0, 1, 2, false, new lib.BtnPlus(), 3);
 
 	this.btnMinus = new lib.BtnMinus();
 	this.btnMinus.name = "btnMinus";
-	this.btnMinus.parent = this;
 	this.btnMinus.setTransform(218,529.8);
 	new cjs.ButtonHelper(this.btnMinus, 0, 1, 2, false, new lib.BtnMinus(), 3);
 
 	this.btnBack = new lib.BtnBack();
 	this.btnBack.name = "btnBack";
-	this.btnBack.parent = this;
 	this.btnBack.setTransform(170,700);
 	new cjs.ButtonHelper(this.btnBack, 0, 1, 2, false, new lib.BtnBack(), 3);
 
 	this.btnNext = new lib.BtnNext();
 	this.btnNext.name = "btnNext";
-	this.btnNext.parent = this;
 	this.btnNext.setTransform(370,700);
 	new cjs.ButtonHelper(this.btnNext, 0, 1, 2, false, new lib.BtnNext(), 3);
 
@@ -315,6 +318,8 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,30);
 
 	this.timeline.addTween(cjs.Tween.get(this.shape_4).wait(1));
 
+	this._renderFirstFrame();
+
 }).prototype = getMCSymbolPrototype(lib.PageGame, new cjs.Rectangle(0,0,640,960), null);
 
 
@@ -324,20 +329,19 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,30);
 	// レイヤー_1
 	this.PageResult = new lib.PageResult();
 	this.PageResult.name = "PageResult";
-	this.PageResult.parent = this;
 	this.PageResult.setTransform(1600,480,1,1,0,0,0,320,480);
 
 	this.PageGame = new lib.PageGame();
 	this.PageGame.name = "PageGame";
-	this.PageGame.parent = this;
 	this.PageGame.setTransform(960,480,1,1,0,0,0,320,480);
 
 	this.PageTop = new lib.PageTop();
 	this.PageTop.name = "PageTop";
-	this.PageTop.parent = this;
 	this.PageTop.setTransform(320,480,1,1,0,0,0,320,480);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.PageTop},{t:this.PageGame},{t:this.PageResult}]}).wait(1));
+
+	this._renderFirstFrame();
 
 }).prototype = getMCSymbolPrototype(lib.MovieClip, new cjs.Rectangle(0,0,1920,960), null);
 
@@ -348,22 +352,20 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,30);
 
 	// レイヤー_1
 	this.instance = new lib.PageTop();
-	this.instance.parent = this;
 	this.instance.setTransform(1206.3,-108,1,1,0,0,0,320,480);
 
 	this.instance_1 = new lib.PageResult();
-	this.instance_1.parent = this;
 	this.instance_1.setTransform(1856.45,-94,1,1,0,0,0,320,480);
 
 	this.instance_2 = new lib.PageGame();
-	this.instance_2.parent = this;
 	this.instance_2.setTransform(2386.55,-122,1,1,0,0,0,320,480);
 
 	this.instance_3 = new lib.MovieClip();
-	this.instance_3.parent = this;
 	this.instance_3.setTransform(1600.45,480,1,1,0,0,0,960,480);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_3},{t:this.instance_2},{t:this.instance_1},{t:this.instance}]}).wait(1));
+
+	this._renderFirstFrame();
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(960.5,-122,1746.1,1082);
@@ -376,7 +378,7 @@ lib.properties = {
 	color: "#CCCCCC",
 	opacity: 1.00,
 	manifest: [
-		{src:"jsgame/images_sp/neko3.png?1564571406503", id:"neko3"}
+		{src:"jsgame/images_sp/neko3.png?1588050204213", id:"neko3"}
 	],
 	preloads: []
 };
@@ -387,7 +389,7 @@ lib.properties = {
 
 (lib.Stage = function(canvas) {
 	createjs.Stage.call(this, canvas);
-}).prototype = p = new createjs.Stage();
+}).prototype = p = new createjs.StageGL();
 
 p.setAutoPlay = function(autoPlay) {
 	this.tickEnabled = autoPlay;
@@ -415,7 +417,7 @@ an.bootstrapCallback=function(fnCallback) {
 
 an.compositions = an.compositions || {};
 an.compositions['235237728A5628459F398B3B054DFB64'] = {
-	getStage: function() { return exportRoot.getStage(); },
+	getStage: function() { return exportRoot.stage; },
 	getLibrary: function() { return lib; },
 	getSpriteSheet: function() { return ss; },
 	getImages: function() { return img; }

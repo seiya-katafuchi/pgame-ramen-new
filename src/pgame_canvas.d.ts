@@ -8,21 +8,6 @@ declare module lib {
 		static color: string;
 		static manifest: Object[];
 	}
-
-	export class neko3 extends createjs.Bitmap {
-	}
-
-	export class BtnNext extends createjs.MovieClip {
-	}
-
-	export class BtnBack extends createjs.MovieClip {
-	}
-	
-	export class BtnPlus extends createjs.MovieClip {
-    }
-  
-    export class BtnMinus extends createjs.MovieClip {
-	}
 	
 	/*追加*/
 	//スタートボタン
@@ -40,14 +25,15 @@ declare module lib {
 	//ラインボタン
 	export class lineButton extends createjs.MovieClip {
 	}
-	//フェイスブックボタン
-	export class facebookButton extends createjs.MovieClip {
+	//ツイッターボタン
+	export class twitterButton extends createjs.MovieClip {
 	}
 	//リザルトシート
 	export class resultSheet extends createjs.MovieClip {
 		//ゲームシーン→リザルトシート→テキストで取得できる
 		ClearCountText : createjs.Text;
 		ScoreText : createjs.Text;
+		syougou : createjs.Text;
 	}
 	
 	export class PageTop extends createjs.MovieClip {
@@ -57,10 +43,6 @@ declare module lib {
 	}
 	
   export class PageGame extends createjs.MovieClip {
-    btnNext: BtnNext;
-    btnBack: BtnBack;
-    btnPlus: BtnPlus;
-    btnMinus: BtnMinus;
 	textScore: createjs.Text;
 	/*追加*/
 	CountDown : createjs.Text;
@@ -69,13 +51,11 @@ declare module lib {
   }
   
   export class PageResult extends createjs.MovieClip {
-    btnNext: BtnNext;
-	btnBack: BtnBack;
 	/*追加*/
 	resultSheet : resultSheet;
 	restartButton : restartButton;
 	lineButton : lineButton;
-	facebookButton : facebookButton;
+	twitterButton : twitterButton;
   }
 
 }

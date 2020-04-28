@@ -24,17 +24,12 @@ export class SceneResult extends Scene {
     let clearCount : number =  sceneGame.clearCountForResult();
     //ゲームシーンのスコアを取得
     let score : number = sceneGame.scoreForResult();
+    //ゲームシーンの称号を取得
+    let syougou : string = sceneGame.syougouForResult();
 
     mc.resultSheet.ClearCountText.text = `${clearCount}`;
     mc.resultSheet.ScoreText.text = `${score}`;
-
-    // リスナーの登録
-    mc.btnBack.on('click', () => {
-      this.gameManager.sceneChange(SceneName.Game);
-    });
-    mc.btnNext.on('click', () => {
-      this.gameManager.sceneChange(SceneName.Top);
-    });
+    mc.resultSheet.syougou.text = syougou;
 
     class ResultScene {
       //リザルトシートを取得
@@ -67,13 +62,27 @@ export class SceneResult extends Scene {
       //クリア数とスコアをリセット
       sceneGame.clearCount_scoreReset();
     });
+    let strScore = `ラーメンゲームで${clearCount}杯を完食！${score}点を獲得！称号「${syougou}」を獲得！`;
+    let gameUrl = "https://www.p-game.jp/game199/";
     //ラインボタン
     mc.lineButton.addEventListener("click",() => {
-      console.log("ラインボタンが押されました");
+      const URL = "https://social-plugins.line.me/lineit/share?url=" + escape(gameUrl) + "&text=" + strScore + "&hashtags=プチゲーム,無料ゲーム,【ジャンル】,【ゲーム名】" + " & related=pgame_jp";
+      window.open( URL, "sample", "width=600,height=400" );
     });
-    //フェイスブックボタン
-    mc.facebookButton.addEventListener("click",() => {
-      console.log("フェイスブックボタンが押されました");
+    //ツイッターボタン
+    mc.twitterButton.addEventListener("click",() => {
+      let strTwitter = strScore;
+      let urlTwitter = gameUrl;
+      if( strTwitter != "" ){
+        if( strTwitter.length > 140 ){
+          console.log( "テキストが140字を超えています" );
+        }
+        else{
+          // 投稿画面を開く
+          urlTwitter = "http://twitter.com/share?url=" + escape(gameUrl) + "&text=" + strTwitter + "&hashtags=プチゲーム,無料ゲーム,【ジャンル】,【ゲーム名】" + " & related=pgame_jp";
+          window.open( urlTwitter, "_blank", "width=600,height=400" );
+        }
+      }
     });
   }
 

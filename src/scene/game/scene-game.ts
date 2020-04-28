@@ -2,17 +2,14 @@ import {Scene} from '../scene';
 import {SceneName} from '../scene-name';
 import {GameManager} from '../../game-manager';
 
-let count : number = 0;
-
 let successCount : number = 0;
 
 let scoreText : number = 0;
 
+let syougou : string;
+
 export class SceneGame extends Scene {
 
-  private score: number = 100;
-
-  private num : number = 50;
 
   constructor(gameManager: GameManager) {
     super(gameManager, SceneName.Game);
@@ -23,33 +20,11 @@ export class SceneGame extends Scene {
     const mc: lib.PageGame = new lib.PageGame();
     this.sceneContainer.addChild(mc);
 
-    //mc.textScore.text = this.score.toString();
-
-    //mc.textScore2.text = count.toString();
-
-    // リスナーの登録
-    mc.btnBack.on('click', () => {
-      this.gameManager.sceneChange(SceneName.Top);
-      this.score = 100;
-    });
-    mc.btnNext.on('click', () => {
-      this.gameManager.sceneChange(SceneName.Result);
-      this.gameManager.game.gameEnd(this.score);
-      this.score = 100;
-    });
-    mc.btnPlus.on('click', () => {
-      console.log('hoge');
-      this.score++;
-      count++;
+  
       //ここはgame.tsのメソッドを使っている
-      this.gameManager.game.pgameAdPopUp();
-    });
-    mc.btnMinus.on('click', () => {
-      this.score--;
-    });
-    mc.btnMinus.on('click', () => {
-      this.score--;
-    });
+      //this.gameManager.game.pgameAdPopUp();
+    
+   
 
     mc.CountDown.text = "1";
     
@@ -67,6 +42,7 @@ export class SceneGame extends Scene {
       public ramenShio : createjs.Bitmap = new createjs.Bitmap("../../../jsgame/images_pc/RamenShio.png");
       public maru : createjs.Bitmap = new createjs.Bitmap("../../../jsgame/images_pc/Maru.png");
       public batsu : createjs.Bitmap = new createjs.Bitmap("../../../jsgame/images_pc/Batsu.png");
+      public gameOverBackScreen : createjs.Bitmap = new createjs.Bitmap("../../../jsgame/images_pc/GameOverBackScreen.png");
       private _countDown : number;
       public keyDownChange : boolean = false;
       public timeOutFlag : boolean = false;
@@ -201,10 +177,45 @@ export class SceneGame extends Scene {
         ramen.ramenSyouyu.visible = false;
         ramen.ramenShio.visible = false;
       }
+      //カウントダウンの秒数を返すメソッド
+      public returnCountDown() : number {
+        let countTime : number;
+        if(successCount <= 20){
+          countTime = 1;
+        }
+        else if(successCount > 20 && successCount <= 50){
+          countTime = 0.9;
+        }
+        else if(successCount > 50 && successCount <= 100){
+          countTime = 0.8;
+        }
+        else {
+          countTime = 0.7;
+        }
+        return countTime;
+      }
       //ランダムにラーメンを表示するメソッド
       private randomRamen() : number {
         let randomNumber : number = Math.floor( Math.random() * (4 + 1 - 0) ) + 0;
         return randomNumber;
+      }
+      //称号を決めるメソッド
+      public syougouGive() : void {
+        if(successCount <= 20){
+          syougou = "平均以下ラーメン人";
+        }
+        else if(successCount <= 50){
+          syougou = "平均的ラーメン人";
+        }
+        else if(successCount <= 80){
+          syougou = "ラーメン町内会代表";
+        }
+        else if(successCount <= 100){
+          syougou = "スーパーラーメン人";
+        }
+        else {
+          syougou = "ラーメン神";
+        }
       }
     }
     //主人公のクラス
@@ -229,6 +240,7 @@ export class SceneGame extends Scene {
     //カウントダウン
     const countDown = new GameSceneManager(1);
 
+
     //ラーメン
     const ramen = new GameSceneManager(1);
     const containerRamen : createjs.Container = new createjs.Container();
@@ -247,6 +259,30 @@ export class SceneGame extends Scene {
     ramen.ramenTonkotsu.visible = false;
     ramen.ramenSyouyu.visible = false;
     ramen.ramenShio.visible = false;
+
+    //店主
+    const shopKeeper = new ShopKeeper(1);
+    const containerShopKeeper : createjs.Container = new createjs.Container();
+    containerShopKeeper.scaleX = 0.8;
+    containerShopKeeper.scaleY = 0.8;
+    containerShopKeeper.x = 400;
+    containerShopKeeper.y = 17.5;
+    this.sceneContainer.addChild(containerShopKeeper);
+    containerShopKeeper.addChild(shopKeeper.shopKeeper_1);
+    containerShopKeeper.addChild(shopKeeper.shopKeeper_2);
+    containerShopKeeper.addChild(shopKeeper.shopKeeperAngry);
+    shopKeeper.shopKeeper_1.visible = true;
+    shopKeeper.shopKeeper_1.x = 20;
+    shopKeeper.shopKeeper_2.visible = false;
+    shopKeeper.shopKeeper_2.x = -25;
+    shopKeeper.shopKeeperAngry.visible = false;
+    shopKeeper.shopKeeperAngry.x = 10;
+
+
+    //バックスクリーン
+    const backScreen_GameOver = new GameSceneManager(1);
+    this.sceneContainer.addChild(backScreen_GameOver.gameOverBackScreen);
+    backScreen_GameOver.gameOverBackScreen.visible = false;
 
     //主人公
     const boy = new Boy(1);
@@ -270,23 +306,6 @@ export class SceneGame extends Scene {
     boy.boyClear.visible = false;
     boy.boyClear.y = -60;
 
-    //店主
-    const shopKeeper = new ShopKeeper(1);
-    const containerShopKeeper : createjs.Container = new createjs.Container();
-    containerShopKeeper.scaleX = 0.8;
-    containerShopKeeper.scaleY = 0.8;
-    containerShopKeeper.x = 400;
-    containerShopKeeper.y = 17.5;
-    this.sceneContainer.addChild(containerShopKeeper);
-    containerShopKeeper.addChild(shopKeeper.shopKeeper_1);
-    containerShopKeeper.addChild(shopKeeper.shopKeeper_2);
-    containerShopKeeper.addChild(shopKeeper.shopKeeperAngry);
-    shopKeeper.shopKeeper_1.visible = true;
-    shopKeeper.shopKeeper_1.x = 20;
-    shopKeeper.shopKeeper_2.visible = false;
-    shopKeeper.shopKeeper_2.x = -25;
-    shopKeeper.shopKeeperAngry.visible = false;
-    shopKeeper.shopKeeperAngry.x = 10;
 
     //マルバツ
     const maru_batsu = new GameSceneManager(1);
@@ -301,9 +320,8 @@ export class SceneGame extends Scene {
     maru_batsu.maru.visible = false;
     maru_batsu.batsu.visible = false;
 
-    
 
-    const func = () => {
+    const firstAction = () => {
       return new Promise((resolve,reject) => {
         setTimeout(() => {
           //出すラーメンをランダムに決めている
@@ -327,18 +345,23 @@ export class SceneGame extends Scene {
         },100);
       });
     };
-    const func2 = (randomRamen : any) => {
+    const secondAction = (randomRamen : any) => {
       return new Promise((resolve,reject) => {
-        countDown.countDownStart(1);
+        //カウントダウンの秒数を決める
+        let decreaseCountDown = countDown.returnCountDown();
+        //カウントダウンの開始
+        countDown.countDownStart(decreaseCountDown);
         resolve(randomRamen);
       });
     };
-    const func3 = (randomRamen : any) => {
+    const thirdAction = (randomRamen : any) => {
       return new Promise((resolve,reject) => {
         setTimeout(() => {
           console.log("ラーメン" + randomRamen);
           console.log("押されたキー" + keyCode);
           if(randomRamen === 0 && keyCode === 37){
+            backScreen_GameOver.gameOverBackScreen.visible = true;
+            countDown.syougouGive();
             console.log("ゲームオーバー");
             countDown.gameOver();
             reject("失敗");
@@ -360,18 +383,23 @@ export class SceneGame extends Scene {
           }
           else if((randomRamen === 1 || randomRamen === 2 || randomRamen === 3 || randomRamen === 4) && keyCode === 39){
             console.log("アウト");
+            backScreen_GameOver.gameOverBackScreen.visible = true;
+            countDown.syougouGive();
             countDown.mistakeRamen();
             reject("失敗");
           }
           else if(countDown.timeOutFlag && keyCode === 0){
+            backScreen_GameOver.gameOverBackScreen.visible = true;
+            countDown.syougouGive();
             console.log("時間切れ");
             reject("失敗");
           }
-        },1000);
+          //↓カウントダウンの秒数×1000
+        },countDown.returnCountDown() * 1000);
       });
     };
     //待機時間そしてリセット
-    const func4 = (randomRamen : any) => {
+    const fourthAction = (randomRamen : any) => {
       return new Promise((resolve,reject) => {
         setTimeout(() => {
           countDown.keyDownLimit = true;
@@ -380,15 +408,14 @@ export class SceneGame extends Scene {
         },100);
       });
     };
-    const callAsync = async () => {
+    const seriesOfAction = async () => {
       try {
-        let num = await func();
-        let num2 = await func2(num);
-        let num3 = await func3(num2);
-        let num4 = await func4(num3);
-        console.log("num4:" + num4);
+        let num = await firstAction();
+        let num2 = await secondAction(num);
+        let num3 = await thirdAction(num2);
+        let num4 = await fourthAction(num3);
         if(num4 === 1){
-          callAsync();
+          seriesOfAction();
         }
       }
       catch(error) {
@@ -400,8 +427,10 @@ export class SceneGame extends Scene {
       }
     }
     setTimeout(() => {
-      callAsync();
+      seriesOfAction();
     },1000);
+
+    
     
   
     //キーを離したとき
@@ -443,10 +472,15 @@ export class SceneGame extends Scene {
   public scoreForResult() : number {
     return scoreText;
   }
-  //クリア数とスコアをリセットするメソッド
+  //リザルトシーンに称号を渡すメソッド
+  public syougouForResult() : string {
+    return syougou;
+  }
+  //クリア数とスコアと称号をリセットするメソッド
   public clearCount_scoreReset() : void {
     successCount = 0;
     scoreText = 0;
+    syougou = "";
   }
 
 }
