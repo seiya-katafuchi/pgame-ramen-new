@@ -17,8 +17,8 @@ export class SceneTop extends Scene {
     this.sceneContainer.addChild(mc);
 
     interface TopSceneFormat {
-      animationDown() : void;
-      animationUp() : void;
+      animationDown(animationSpeed : number) : void;
+      animationUp(animationSpeed : number) : void;
     }
 
     class TopScene implements TopSceneFormat{
@@ -28,17 +28,17 @@ export class SceneTop extends Scene {
       public constructor(){
       
       }
-      public animationDown() : void {
+      public animationDown(animationSpeed : number) : void {
         createjs.Tween.get(this.helpsheet)
           .to({
-            y : 220
+            y : animationSpeed
           },1500,createjs.Ease.bounceOut);
       }
 
-      public animationUp() : void {
+      public animationUp(animationSpeed : number) : void {
         createjs.Tween.get(this.helpsheet)
         .to({
-          y : -220
+          y : -animationSpeed
         },1500);
       }
     }
@@ -46,23 +46,43 @@ export class SceneTop extends Scene {
     let animationFlag : boolean = true;
     //インスタンスの生成
     const topScene = new TopScene();
-    // リスナーの登録
-    mc.botan.on('click', () => {
+    
+
+    // タッチ操作をサポートしているブラウザーならば
+    if(createjs.Touch.isSupported() == true){
+      // リスナーの登録
+      mc.botan.on('click', () => {
+        this.gameManager.sceneChange(SceneName.Game);
+      });
+      mc.helpbutton.on('click', () => {
+        if(animationFlag){
+          topScene.animationDown(480);
+          animationFlag = false;
+        }
+        else {
+          topScene.animationUp(480);
+          animationFlag = true;
+        }
+      });
+      // タッチ操作を有効にします。
+      createjs.Touch.enable(this.gameManager.stage);
+    }
+    else {
+      // リスナーの登録
+      mc.botan.on('click', () => {
       this.gameManager.sceneChange(SceneName.Game);
-    });
-    mc.helpbutton.on('click', () => {
-      if(animationFlag){
-        topScene.animationDown();
-        animationFlag = false;
-      }
-      else {
-        topScene.animationUp();
-        animationFlag = true;
-      }
-    });
-  
-    
-    
+      });
+      mc.helpbutton.on('click', () => {
+        if(animationFlag){
+          topScene.animationDown(220);
+         animationFlag = false;
+        }
+        else {
+          topScene.animationUp(220);
+          animationFlag = true;
+        }
+      });
+    }
    
 
 

@@ -7,7 +7,8 @@ export class GameManager {
 
   game: Game;
   state: string;
-  private stage: Stage;
+  //↓コメントアウトしています
+  /*private*/ stage: Stage;
 
   private mode: string | undefined = process.env.BUILD_MODE;
 
@@ -30,6 +31,7 @@ export class GameManager {
     }
     this.stage.removeAllEventListeners();
     this.stage.removeAllChildren();
+    //ここはシーンファイルのメソッドを実行
     this.stage.addChild(scene.makeSceneContainer());
   }
 

@@ -28,6 +28,15 @@ declare module lib {
 	//ツイッターボタン
 	export class twitterButton extends createjs.MovieClip {
 	}
+	//スマホ版左ボタン
+	export class leftbutton extends createjs.MovieClip {
+	}
+	//スマホ版右ボタン
+	export class rightbutton extends createjs.MovieClip {
+	}
+	//難易度アップシート
+	export class nannidoup extends createjs.MovieClip {
+	}
 	//リザルトシート
 	export class resultSheet extends createjs.MovieClip {
 		//ゲームシーン→リザルトシート→テキストで取得できる
@@ -48,6 +57,9 @@ declare module lib {
 	CountDown : createjs.Text;
 	SuccessCount : createjs.Text;
 	ScoreText : createjs.Text;
+	leftbutton : leftbutton;
+	rightbutton : rightbutton;
+	nannidoup : nannidoup;
   }
   
   export class PageResult extends createjs.MovieClip {
