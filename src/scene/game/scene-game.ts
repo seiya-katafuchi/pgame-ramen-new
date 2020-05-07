@@ -83,9 +83,10 @@ export class SceneGame extends Scene {
           this.count = Math.round(countDownTime * 10) / 10;
           mc.CountDown.text = `${this.count}`;
           if (countDownTime <= 0.1) {
-            this.timeOutFlag = true;
+            console.log("タイムアウトしましたよ");
             this.timeOut();
             clearInterval(this.id);
+            this.timeOutFlag = true;
           }
         }, 100);
       }
@@ -428,8 +429,7 @@ export class SceneGame extends Scene {
             countDown.mistakeRamen();
             reject("失敗");
           } else if (
-            countDown.timeOutFlag ||
-            keyCode === 0 ||
+            (countDown.timeOutFlag && keyCode === 0) ||
             buttonCode === 0
           ) {
             backScreen_GameOver.gameOverBackScreen.visible = true;
@@ -542,7 +542,7 @@ export class SceneGame extends Scene {
         if (keyCode === 37) {
           //カウントダウン中のみ押せるようにする
           if (!countDown.keyDownChange) {
-            event.preventDefault();
+            //event.preventDefault();
           }
           //一回しか押せないようにする
           else if (countDown.keyDownLimit) {

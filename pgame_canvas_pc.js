@@ -9,12 +9,6 @@ lib.ssMetadata = [];
 
 
 
-(lib.flash0aiアセット = function() {
-	this.initialize(img.flash0aiアセット);
-}).prototype = p = new cjs.Bitmap();
-p.nominalBounds = new cjs.Rectangle(0,0,843,596);
-
-
 (lib.GameBackScreen = function() {
 	this.initialize(img.GameBackScreen);
 }).prototype = p = new cjs.Bitmap();
@@ -109,6 +103,12 @@ p.nominalBounds = new cjs.Rectangle(0,0,220,46);
 	this.initialize(img.StartButton_PC_Push);
 }).prototype = p = new cjs.Bitmap();
 p.nominalBounds = new cjs.Rectangle(0,0,220,42);
+
+
+(lib.TopScene = function() {
+	this.initialize(img.TopScene);
+}).prototype = p = new cjs.Bitmap();
+p.nominalBounds = new cjs.Rectangle(0,0,843,596);
 
 
 (lib.TwitterButton_PC = function() {
@@ -349,8 +349,8 @@ p.nominalBounds = new cjs.Rectangle(0,0,220,46);
 	this.botan.setTransform(139,442,0.8219,0.8219);
 	new cjs.ButtonHelper(this.botan, 0, 1, 2);
 
-	this.instance = new lib.flash0aiアセット();
-	this.instance.setTransform(0,-1,0.7604,0.8087);
+	this.instance = new lib.TopScene();
+	this.instance.setTransform(0,0,0.7604,0.8087);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance},{t:this.botan},{t:this.helpbutton},{t:this.helpsheet}]}).wait(1));
 
@@ -363,7 +363,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,220,46);
 
 	this._renderFirstFrame();
 
-}).prototype = getMCSymbolPrototype(lib.PageTop, new cjs.Rectangle(0,-443.7,641.8,925), null);
+}).prototype = getMCSymbolPrototype(lib.PageTop, new cjs.Rectangle(0,-443.7,641.8,925.7), null);
 
 
 (lib.PageResult = function(mode,startPosition,loop) {
@@ -537,25 +537,25 @@ lib.properties = {
 	color: "#CCCCCC",
 	opacity: 1.00,
 	manifest: [
-		{src:"jsgame/images_pc/flash0aiアセット.png?1588312367977", id:"flash0aiアセット"},
-		{src:"jsgame/images_pc/GameBackScreen.png?1588312367977", id:"GameBackScreen"},
-		{src:"jsgame/images_pc/HelpButton_PC.png?1588312367977", id:"HelpButton_PC"},
-		{src:"jsgame/images_pc/HelpButton_PC_Push.png?1588312367977", id:"HelpButton_PC_Push"},
-		{src:"jsgame/images_pc/helpsheet2.png?1588312367977", id:"helpsheet2"},
-		{src:"jsgame/images_pc/LineButton_PC.png?1588312367977", id:"LineButton_PC"},
-		{src:"jsgame/images_pc/LineButton_PC_Push.png?1588312367977", id:"LineButton_PC_Push"},
-		{src:"jsgame/images_pc/nannidoupsheet.png?1588312367977", id:"nannidoupsheet"},
-		{src:"jsgame/images_pc/owan.png?1588312367977", id:"owan"},
-		{src:"jsgame/images_pc/poster.png?1588312367977", id:"poster"},
-		{src:"jsgame/images_pc/RestartButton_PC.png?1588312367977", id:"RestartButton_PC"},
-		{src:"jsgame/images_pc/RestartButton_PC_Push.png?1588312367977", id:"RestartButton_PC_Push"},
-		{src:"jsgame/images_pc/ResultScene.png?1588312367977", id:"ResultScene"},
-		{src:"jsgame/images_pc/ResultSheet.png?1588312367977", id:"ResultSheet"},
-		{src:"jsgame/images_pc/shape.png?1588312367977", id:"shape"},
-		{src:"jsgame/images_pc/StartButton_PC.png?1588312367977", id:"StartButton_PC"},
-		{src:"jsgame/images_pc/StartButton_PC_Push.png?1588312367977", id:"StartButton_PC_Push"},
-		{src:"jsgame/images_pc/TwitterButton_PC.png?1588312367977", id:"TwitterButton_PC"},
-		{src:"jsgame/images_pc/TwitterButton_PC_Push.png?1588312367977", id:"TwitterButton_PC_Push"}
+		{src:"jsgame/images_pc/GameBackScreen.png?1588779899586", id:"GameBackScreen"},
+		{src:"jsgame/images_pc/HelpButton_PC.png?1588779899586", id:"HelpButton_PC"},
+		{src:"jsgame/images_pc/HelpButton_PC_Push.png?1588779899586", id:"HelpButton_PC_Push"},
+		{src:"jsgame/images_pc/helpsheet2.png?1588779899586", id:"helpsheet2"},
+		{src:"jsgame/images_pc/LineButton_PC.png?1588779899586", id:"LineButton_PC"},
+		{src:"jsgame/images_pc/LineButton_PC_Push.png?1588779899586", id:"LineButton_PC_Push"},
+		{src:"jsgame/images_pc/nannidoupsheet.png?1588779899586", id:"nannidoupsheet"},
+		{src:"jsgame/images_pc/owan.png?1588779899586", id:"owan"},
+		{src:"jsgame/images_pc/poster.png?1588779899586", id:"poster"},
+		{src:"jsgame/images_pc/RestartButton_PC.png?1588779899586", id:"RestartButton_PC"},
+		{src:"jsgame/images_pc/RestartButton_PC_Push.png?1588779899586", id:"RestartButton_PC_Push"},
+		{src:"jsgame/images_pc/ResultScene.png?1588779899586", id:"ResultScene"},
+		{src:"jsgame/images_pc/ResultSheet.png?1588779899586", id:"ResultSheet"},
+		{src:"jsgame/images_pc/shape.png?1588779899586", id:"shape"},
+		{src:"jsgame/images_pc/StartButton_PC.png?1588779899586", id:"StartButton_PC"},
+		{src:"jsgame/images_pc/StartButton_PC_Push.png?1588779899586", id:"StartButton_PC_Push"},
+		{src:"jsgame/images_pc/TopScene.png?1588779899586", id:"TopScene"},
+		{src:"jsgame/images_pc/TwitterButton_PC.png?1588779899586", id:"TwitterButton_PC"},
+		{src:"jsgame/images_pc/TwitterButton_PC_Push.png?1588779899586", id:"TwitterButton_PC_Push"}
 	],
 	preloads: []
 };
