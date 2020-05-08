@@ -83,6 +83,7 @@ export class SceneGame extends Scene {
           this.count = Math.round(countDownTime * 10) / 10;
           mc.CountDown.text = `${this.count}`;
           if (countDownTime <= 0.1) {
+            //mc.CountDown.text = `${this.count + 0.1}`;
             console.log("タイムアウトしましたよ");
             this.timeOut();
             clearInterval(this.id);
@@ -206,16 +207,19 @@ export class SceneGame extends Scene {
       }
       //称号を決めるメソッド
       public syougouGive(): void {
+        if (successCount === 0) {
+          syougou = "E";
+        }
         if (successCount <= 20) {
-          syougou = "少食ラーメン人";
+          syougou = "D";
         } else if (successCount <= 50) {
-          syougou = "ラーメン人";
+          syougou = "C";
         } else if (successCount <= 80) {
-          syougou = "大食いラーメン人";
+          syougou = "B";
         } else if (successCount <= 100) {
-          syougou = "スーパーラーメン人";
+          syougou = "A";
         } else {
-          syougou = "ラーメン神";
+          syougou = "S";
         }
       }
     }
@@ -252,27 +256,6 @@ export class SceneGame extends Scene {
         super(countDown);
       }
     }
-    //難易度アップを知らせるアニメーション
-    /*const nannidoAinmation = (): void => {
-      createjs.Tween.get(mc.nannidoup)
-        .to(
-          {
-            x: 100,
-          },
-          1000
-        )
-        .wait(1000)
-        .to(
-          {
-            x: -344,
-          },
-          1000
-        )
-        .call(returnToOrigin);
-    };*/
-    /*const returnToOrigin = (): void => {
-      mc.nannidoup.x = 641;
-    };*/
 
     //カウントダウン
     const countDown = new GameSceneManager(1);
@@ -429,7 +412,8 @@ export class SceneGame extends Scene {
             countDown.mistakeRamen();
             reject("失敗");
           } else if (
-            (countDown.timeOutFlag && keyCode === 0) ||
+            countDown.timeOutFlag ||
+            keyCode === 0 ||
             buttonCode === 0
           ) {
             backScreen_GameOver.gameOverBackScreen.visible = true;
@@ -437,38 +421,21 @@ export class SceneGame extends Scene {
             console.log("時間切れ");
             reject("失敗");
           }
-          /*if (
-            successCount === 20 ||
-            successCount === 50 ||
-            successCount === 80 ||
-            successCount === 100
-          ) {
-            nannidoAinmation();
-          }*/
+          //countDown.keyDownLimit = true;
           //↓カウントダウンの秒数×1000
         }, countDown.returnCountDown() * 1000);
       });
     };
-    let waitTime: number = 100;
     //待機時間そしてリセット
     const fourthAction = (randomRamen: any) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           countDown.keyDownLimit = true;
+          keyFlag = true;
           keyCode = 0;
           buttonCode = 0;
           resolve(1);
-          /*if (
-            successCount === 20 ||
-            successCount === 50 ||
-            successCount === 80 ||
-            successCount === 100
-          ) {
-            waitTime = 2500;
-          } else {
-            waitTime = 100;
-          }*/
-        }, waitTime);
+        }, 100);
       });
     };
     //ゲームの一連の動作
@@ -492,6 +459,10 @@ export class SceneGame extends Scene {
       seriesOfAction();
     }, 1000);
 
+    //mc.mouseEnabled = false;
+
+    let keyFlag: boolean = true;
+
     // タッチ操作をサポートしているブラウザーならば
     if (createjs.Touch.isSupported() == true) {
       let scale: number = 1.1;
@@ -510,25 +481,29 @@ export class SceneGame extends Scene {
       containerShopKeeper.y += 116;
       backScreen_GameOver.gameOverBackScreen.scaleY = 1.6;
       mc.leftbutton.addEventListener("click", () => {
-        buttonCode = 37;
         //カウントダウン中にしか押せないようにする
         if (countDown.keyDownChange) {
           //一回しか押せないようにする
           if (countDown.keyDownLimit) {
+            buttonCode = 37;
             console.log(`押されたキー「←」`);
             countDown.keyDownLimit = false;
+            /*追加*/
+            countDown.keyDownChange = false;
             clearInterval(countDown.id);
           }
         }
       });
       mc.rightbutton.addEventListener("click", () => {
-        buttonCode = 39;
         //カウントダウン中にしか押せないようにする
         if (countDown.keyDownChange) {
           //一回しか押せないようにする
           if (countDown.keyDownLimit) {
+            buttonCode = 39;
             console.log(`押されたキー「→」`);
             countDown.keyDownLimit = false;
+            /*追加*/
+            countDown.keyDownChange = false;
             clearInterval(countDown.id);
           }
         }
@@ -537,17 +512,22 @@ export class SceneGame extends Scene {
       createjs.Touch.enable(this.gameManager.stage);
     } else {
       window.addEventListener("keyup", (event) => {
-        keyCode = event.keyCode;
-        keyCode = keyCode === 37 || keyCode === 39 ? event.keyCode : 0;
+        if (keyFlag) {
+          keyCode = event.keyCode;
+          keyCode = keyCode === 37 || keyCode === 39 ? event.keyCode : 0;
+          keyFlag = false;
+        }
         if (keyCode === 37) {
           //カウントダウン中のみ押せるようにする
           if (!countDown.keyDownChange) {
-            //event.preventDefault();
+            event.preventDefault();
           }
           //一回しか押せないようにする
           else if (countDown.keyDownLimit) {
             console.log(`押されたキー「←」`);
             countDown.keyDownLimit = false;
+            /*追加*/
+            countDown.keyDownChange = false;
             clearInterval(countDown.id);
           }
         } else if (keyCode === 39) {
@@ -559,6 +539,8 @@ export class SceneGame extends Scene {
           else if (countDown.keyDownLimit) {
             console.log("押されたキー「→」");
             countDown.keyDownLimit = false;
+            /*追加*/
+            countDown.keyDownChange = false;
             clearInterval(countDown.id);
           }
         }
