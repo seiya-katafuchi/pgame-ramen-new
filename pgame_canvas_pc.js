@@ -45,12 +45,6 @@ p.nominalBounds = new cjs.Rectangle(0,0,220,43);
 p.nominalBounds = new cjs.Rectangle(0,0,220,43);
 
 
-(lib.nannidoupsheet = function() {
-	this.initialize(img.nannidoupsheet);
-}).prototype = p = new cjs.Bitmap();
-p.nominalBounds = new cjs.Rectangle(0,0,542,258);
-
-
 (lib.owan = function() {
 	this.initialize(img.owan);
 }).prototype = p = new cjs.Bitmap();
@@ -253,17 +247,84 @@ p.nominalBounds = new cjs.Rectangle(0,0,220,46);
 p.nominalBounds = new cjs.Rectangle(0,0,220,46);
 
 
-(lib.NanidoUp = function(mode,startPosition,loop) {
+(lib.PageGame = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
-	// レイヤー_1
-	this.instance = new lib.nannidoupsheet();
+	// Component
+	this.startCountDownText = new cjs.Text("3", "96px 'HGPGyoshotai'", "#FF0000");
+	this.startCountDownText.name = "startCountDownText";
+	this.startCountDownText.textAlign = "center";
+	this.startCountDownText.lineHeight = 98;
+	this.startCountDownText.lineWidth = 100;
+	this.startCountDownText.parent = this;
+	this.startCountDownText.setTransform(313.2,159.2,1.6,1.6);
 
-	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
+	this.instance = new lib.poster();
+	this.instance.setTransform(174,139,0.2194,0.2194);
+
+	this.ScoreText = new cjs.Text("0", "84px 'HGSGyoshotai'");
+	this.ScoreText.name = "ScoreText";
+	this.ScoreText.textAlign = "center";
+	this.ScoreText.lineHeight = 86;
+	this.ScoreText.parent = this;
+	this.ScoreText.setTransform(103.1619,96.75,0.6104,0.6104);
+
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#000000").s().p("Ag1BPQARgIAPgbQALgdAAgVIgOgTQAHgFAKAAQAKADANAJQAUgLAUgWIAGgKIggAAQgeACgQACIgmAHQgPgCgmgUIAZABQAVgBATgDQAagDANAAIA5gBIAMgEQAVAEATASQAHAJgQAEQgSARgTAMQgaAOgMAAQgFAsgQATQgPATgjAHIgCAAQgFAAADgFg");
+	this.shape.setTransform(134.7089,80.8327);
+
+	this.shape_1 = new cjs.Shape();
+	this.shape_1.graphics.f("#000000").s().p("AAIBBQgXgBgVAGQgNAAgMgJIgPgNQAugHA3gCQAHgQADgYIADgqIgegCQggACgRADQgIAAgYgPQgGgEgCgDIBRgDQAPgBATACIAJgFQAkAQADAKQgBAFgEAGQgKAygHAsQgFAIgIAAQgPgFgYAAg");
+	this.shape_1.setTransform(104.175,79.825);
+
+	this.shape_2 = new cjs.Shape();
+	this.shape_2.graphics.f("#000000").s().p("AAvA0QgcgdgMgHQgcAXgeARQgeAOgOgCQgIgCgEgEQANgDAOgHQBQg1Adg5Ig2ALQgGgCgKgIQgMgJgIgEIgGgCQAkAAAUgBQAbgBALgEQAHgHAJACQAUAIAIAKQACAEgCACQgIAIgJALQgVAfgRAQIAVAJQA4AXAPAdQgBAHgCAEQgEAFgKAAQgLAAghggg");
+	this.shape_2.setTransform(73.75,80.0778);
+
+	this.instance_1 = new lib.owan();
+	this.instance_1.setTransform(18,10,0.6709,0.6709);
+
+	this.SuccessCount = new cjs.Text("0", "84px 'HGSGyoshotai'");
+	this.SuccessCount.name = "SuccessCount";
+	this.SuccessCount.textAlign = "center";
+	this.SuccessCount.lineHeight = 86;
+	this.SuccessCount.parent = this;
+	this.SuccessCount.setTransform(157.1619,11.4,0.6104,0.6104);
+
+	this.CountDown = new cjs.Text("0", "84px 'HGSGyoshotai'", "#FFFFFF");
+	this.CountDown.name = "CountDown";
+	this.CountDown.textAlign = "center";
+	this.CountDown.lineHeight = 86;
+	this.CountDown.lineWidth = 42;
+	this.CountDown.parent = this;
+	this.CountDown.setTransform(311.871,366.9,0.6487,0.6487);
+
+	this.instance_2 = new lib.shape();
+	this.instance_2.setTransform(257,338,1.0931,1.0931);
+
+	this.instance_3 = new lib.GameBackScreen();
+	this.instance_3.setTransform(0,-1,0.7612,0.8057);
+
+	this.shape_3 = new cjs.Shape();
+	this.shape_3.graphics.f().s("#00A99D").ss(1,1,1).p("ABFgqQgDAvgQAlQgUAwgdAAQgcAAgVgwQgUgvAAhFQAAgIAAgH");
+	this.shape_3.setTransform(260.9875,312.9875);
+
+	this.shape_4 = new cjs.Shape();
+	this.shape_4.graphics.f("#00A99D").s().p("AitGcQgVgwAAhFIAAgPQgtgagngoQh0hzAAijQAAikB0hzQBzh0CjAAQCkAABzB0QB0BzAACkQAACjh0BzQhzB0ikAAQgcAAgbgEQgEAxgPAlQgVAwgdAAQgdAAgUgwg");
+	this.shape_4.setTransform(273.55,276);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_4},{t:this.shape_3},{t:this.instance_3},{t:this.instance_2},{t:this.CountDown},{t:this.SuccessCount},{t:this.instance_1},{t:this.shape_2},{t:this.shape_1},{t:this.shape},{t:this.ScoreText},{t:this.instance},{t:this.startCountDownText}]}).wait(1));
+
+	// BackGround
+	this.shape_5 = new cjs.Shape();
+	this.shape_5.graphics.f("#00FFCC").s().p("Egx/AlgMAAAhK/MBj/AAAMAAABK/g");
+	this.shape_5.setTransform(320,240);
+
+	this.timeline.addTween(cjs.Tween.get(this.shape_5).wait(1));
 
 	this._renderFirstFrame();
 
-}).prototype = getMCSymbolPrototype(lib.NanidoUp, new cjs.Rectangle(0,0,542,258), null);
+}).prototype = getMCSymbolPrototype(lib.PageGame, new cjs.Rectangle(0,-1,644,481), null);
 
 
 (lib.LineButton = function(mode,startPosition,loop) {
@@ -288,13 +349,13 @@ p.nominalBounds = new cjs.Rectangle(0,0,220,46);
 
 	// レイヤー_1
 	this.instance = new lib.helpsheet_SP();
-	this.instance.setTransform(0,-599,1,1.0017);
+	this.instance.setTransform(0,-597);
 
 	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
 
 	this._renderFirstFrame();
 
-}).prototype = getMCSymbolPrototype(lib.HelpSheet, new cjs.Rectangle(0,-599,843,597), null);
+}).prototype = getMCSymbolPrototype(lib.HelpSheet, new cjs.Rectangle(0,-597,843,596), null);
 
 
 (lib.HelpButton = function(mode,startPosition,loop) {
@@ -363,7 +424,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,220,46);
 
 	this._renderFirstFrame();
 
-}).prototype = getMCSymbolPrototype(lib.PageTop, new cjs.Rectangle(0,-443.7,641.8,925.7), null);
+}).prototype = getMCSymbolPrototype(lib.PageTop, new cjs.Rectangle(0,-442.3,641.8,924.3), null);
 
 
 (lib.PageResult = function(mode,startPosition,loop) {
@@ -406,90 +467,6 @@ p.nominalBounds = new cjs.Rectangle(0,0,220,46);
 }).prototype = getMCSymbolPrototype(lib.PageResult, new cjs.Rectangle(-1.5,-424.7,644.7,907), null);
 
 
-(lib.PageGame = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
-
-	// Component
-	this.startCountDownText = new cjs.Text("3", "96px 'HGPGyoshotai'", "#FF0000");
-	this.startCountDownText.name = "startCountDownText";
-	this.startCountDownText.textAlign = "center";
-	this.startCountDownText.lineHeight = 98;
-	this.startCountDownText.lineWidth = 100;
-	this.startCountDownText.parent = this;
-	this.startCountDownText.setTransform(313.2,159.2,1.6,1.6);
-
-	this.nannidoup = new lib.NanidoUp();
-	this.nannidoup.name = "nannidoup";
-	this.nannidoup.setTransform(816.25,268,0.6357,0.6357,0,0,0,271,129);
-
-	this.instance = new lib.poster();
-	this.instance.setTransform(174,139,0.2194,0.2194);
-
-	this.ScoreText = new cjs.Text("0", "84px 'HGSGyoshotai'");
-	this.ScoreText.name = "ScoreText";
-	this.ScoreText.textAlign = "center";
-	this.ScoreText.lineHeight = 86;
-	this.ScoreText.parent = this;
-	this.ScoreText.setTransform(103.1619,96.75,0.6104,0.6104);
-
-	this.shape = new cjs.Shape();
-	this.shape.graphics.f("#000000").s().p("Ag1BPQARgIAPgbQALgdAAgVIgOgTQAHgFAKAAQAKADANAJQAUgLAUgWIAGgKIggAAQgeACgQACIgmAHQgPgCgmgUIAZABQAVgBATgDQAagDANAAIA5gBIAMgEQAVAEATASQAHAJgQAEQgSARgTAMQgaAOgMAAQgFAsgQATQgPATgjAHIgCAAQgFAAADgFg");
-	this.shape.setTransform(134.7089,80.8327);
-
-	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f("#000000").s().p("AAIBBQgXgBgVAGQgNAAgMgJIgPgNQAugHA3gCQAHgQADgYIADgqIgegCQggACgRADQgIAAgYgPQgGgEgCgDIBRgDQAPgBATACIAJgFQAkAQADAKQgBAFgEAGQgKAygHAsQgFAIgIAAQgPgFgYAAg");
-	this.shape_1.setTransform(104.175,79.825);
-
-	this.shape_2 = new cjs.Shape();
-	this.shape_2.graphics.f("#000000").s().p("AAvA0QgcgdgMgHQgcAXgeARQgeAOgOgCQgIgCgEgEQANgDAOgHQBQg1Adg5Ig2ALQgGgCgKgIQgMgJgIgEIgGgCQAkAAAUgBQAbgBALgEQAHgHAJACQAUAIAIAKQACAEgCACQgIAIgJALQgVAfgRAQIAVAJQA4AXAPAdQgBAHgCAEQgEAFgKAAQgLAAghggg");
-	this.shape_2.setTransform(73.75,80.0778);
-
-	this.instance_1 = new lib.owan();
-	this.instance_1.setTransform(18,10,0.6709,0.6709);
-
-	this.SuccessCount = new cjs.Text("0", "84px 'HGSGyoshotai'");
-	this.SuccessCount.name = "SuccessCount";
-	this.SuccessCount.textAlign = "center";
-	this.SuccessCount.lineHeight = 86;
-	this.SuccessCount.parent = this;
-	this.SuccessCount.setTransform(157.1619,11.4,0.6104,0.6104);
-
-	this.CountDown = new cjs.Text("0", "84px 'HGSGyoshotai'", "#FFFFFF");
-	this.CountDown.name = "CountDown";
-	this.CountDown.textAlign = "center";
-	this.CountDown.lineHeight = 86;
-	this.CountDown.lineWidth = 42;
-	this.CountDown.parent = this;
-	this.CountDown.setTransform(311.871,366.9,0.6487,0.6487);
-
-	this.instance_2 = new lib.shape();
-	this.instance_2.setTransform(257,338,1.0931,1.0931);
-
-	this.instance_3 = new lib.GameBackScreen();
-	this.instance_3.setTransform(0,-1,0.7612,0.8057);
-
-	this.shape_3 = new cjs.Shape();
-	this.shape_3.graphics.f().s("#00A99D").ss(1,1,1).p("ABFgqQgDAvgQAlQgUAwgdAAQgcAAgVgwQgUgvAAhFQAAgIAAgH");
-	this.shape_3.setTransform(260.9875,312.9875);
-
-	this.shape_4 = new cjs.Shape();
-	this.shape_4.graphics.f("#00A99D").s().p("AitGcQgVgwAAhFIAAgPQgtgagngoQh0hzAAijQAAikB0hzQBzh0CjAAQCkAABzB0QB0BzAACkQAACjh0BzQhzB0ikAAQgcAAgbgEQgEAxgPAlQgVAwgdAAQgdAAgUgwg");
-	this.shape_4.setTransform(273.55,276);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_4},{t:this.shape_3},{t:this.instance_3},{t:this.instance_2},{t:this.CountDown},{t:this.SuccessCount},{t:this.instance_1},{t:this.shape_2},{t:this.shape_1},{t:this.shape},{t:this.ScoreText},{t:this.instance},{t:this.nannidoup},{t:this.startCountDownText}]}).wait(1));
-
-	// BackGround
-	this.shape_5 = new cjs.Shape();
-	this.shape_5.graphics.f("#00FFCC").s().p("Egx/AlgMAAAhK/MBj/AAAMAAABK/g");
-	this.shape_5.setTransform(320,240);
-
-	this.timeline.addTween(cjs.Tween.get(this.shape_5).wait(1));
-
-	this._renderFirstFrame();
-
-}).prototype = getMCSymbolPrototype(lib.PageGame, new cjs.Rectangle(0,-1,988.6,481), null);
-
-
 (lib.MovieClip = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
@@ -510,7 +487,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,220,46);
 
 	this._renderFirstFrame();
 
-}).prototype = getMCSymbolPrototype(lib.MovieClip, new cjs.Rectangle(0,-443.7,1923.2,926), null);
+}).prototype = getMCSymbolPrototype(lib.MovieClip, new cjs.Rectangle(0,-442.3,1923.2,924.6), null);
 
 
 // stage content:
@@ -535,7 +512,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,220,46);
 	this._renderFirstFrame();
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(320,-791.7,2735.1,1274);
+p.nominalBounds = new cjs.Rectangle(320,-790.3,2390.6,1272.6);
 // library properties:
 lib.properties = {
 	id: '22A39DC83079432BB23403B040ECA6C4',
@@ -545,25 +522,24 @@ lib.properties = {
 	color: "#CCCCCC",
 	opacity: 1.00,
 	manifest: [
-		{src:"jsgame/images_pc/GameBackScreen.png?1589253969613", id:"GameBackScreen"},
-		{src:"jsgame/images_pc/HelpButton_PC.png?1589253969613", id:"HelpButton_PC"},
-		{src:"jsgame/images_pc/HelpButton_PC_Push.png?1589253969613", id:"HelpButton_PC_Push"},
-		{src:"jsgame/images_pc/helpsheet_SP.png?1589253969613", id:"helpsheet_SP"},
-		{src:"jsgame/images_pc/LineButton_PC.png?1589253969613", id:"LineButton_PC"},
-		{src:"jsgame/images_pc/LineButton_PC_Push.png?1589253969613", id:"LineButton_PC_Push"},
-		{src:"jsgame/images_pc/nannidoupsheet.png?1589253969613", id:"nannidoupsheet"},
-		{src:"jsgame/images_pc/owan.png?1589253969613", id:"owan"},
-		{src:"jsgame/images_pc/poster.png?1589253969613", id:"poster"},
-		{src:"jsgame/images_pc/RestartButton_PC.png?1589253969613", id:"RestartButton_PC"},
-		{src:"jsgame/images_pc/RestartButton_PC_Push.png?1589253969613", id:"RestartButton_PC_Push"},
-		{src:"jsgame/images_pc/ResultScene.png?1589253969613", id:"ResultScene"},
-		{src:"jsgame/images_pc/ResultSheet.png?1589253969613", id:"ResultSheet"},
-		{src:"jsgame/images_pc/shape.png?1589253969613", id:"shape"},
-		{src:"jsgame/images_pc/StartButton_PC.png?1589253969613", id:"StartButton_PC"},
-		{src:"jsgame/images_pc/StartButton_PC_Push.png?1589253969613", id:"StartButton_PC_Push"},
-		{src:"jsgame/images_pc/TopScene.png?1589253969613", id:"TopScene"},
-		{src:"jsgame/images_pc/TwitterButton_PC.png?1589253969613", id:"TwitterButton_PC"},
-		{src:"jsgame/images_pc/TwitterButton_PC_Push.png?1589253969613", id:"TwitterButton_PC_Push"}
+		{src:"jsgame/images_pc/GameBackScreen.png?1589294591934", id:"GameBackScreen"},
+		{src:"jsgame/images_pc/HelpButton_PC.png?1589294591934", id:"HelpButton_PC"},
+		{src:"jsgame/images_pc/HelpButton_PC_Push.png?1589294591934", id:"HelpButton_PC_Push"},
+		{src:"jsgame/images_pc/helpsheet_SP.png?1589294591934", id:"helpsheet_SP"},
+		{src:"jsgame/images_pc/LineButton_PC.png?1589294591934", id:"LineButton_PC"},
+		{src:"jsgame/images_pc/LineButton_PC_Push.png?1589294591934", id:"LineButton_PC_Push"},
+		{src:"jsgame/images_pc/owan.png?1589294591934", id:"owan"},
+		{src:"jsgame/images_pc/poster.png?1589294591934", id:"poster"},
+		{src:"jsgame/images_pc/RestartButton_PC.png?1589294591934", id:"RestartButton_PC"},
+		{src:"jsgame/images_pc/RestartButton_PC_Push.png?1589294591934", id:"RestartButton_PC_Push"},
+		{src:"jsgame/images_pc/ResultScene.png?1589294591934", id:"ResultScene"},
+		{src:"jsgame/images_pc/ResultSheet.png?1589294591934", id:"ResultSheet"},
+		{src:"jsgame/images_pc/shape.png?1589294591934", id:"shape"},
+		{src:"jsgame/images_pc/StartButton_PC.png?1589294591934", id:"StartButton_PC"},
+		{src:"jsgame/images_pc/StartButton_PC_Push.png?1589294591934", id:"StartButton_PC_Push"},
+		{src:"jsgame/images_pc/TopScene.png?1589294591934", id:"TopScene"},
+		{src:"jsgame/images_pc/TwitterButton_PC.png?1589294591934", id:"TwitterButton_PC"},
+		{src:"jsgame/images_pc/TwitterButton_PC_Push.png?1589294591934", id:"TwitterButton_PC_Push"}
 	],
 	preloads: []
 };

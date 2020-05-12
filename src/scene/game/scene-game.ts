@@ -320,6 +320,7 @@ export class SceneGame extends Scene {
         setTimeout(() => {
           //出すラーメンをランダムに決めている
           let randomRamen: number = gameScene.firstState();
+          //0は激辛ラーメン1から4まではそれ以外
           if (randomRamen === 0) {
             ramen.ramenGekikara.visible = true;
           } else if (randomRamen === 1) {
@@ -360,6 +361,8 @@ export class SceneGame extends Scene {
             (keyCode === 39 || buttonCode === 39)
           ) {
             console.log("セーフ");
+            successCount++;
+            mc.SuccessCount.text = `${successCount}`;
             resolve(1);
             gameScene.gekikaraRefusal();
           } else if (
@@ -414,6 +417,7 @@ export class SceneGame extends Scene {
         successCount === 200
       ) {
         waitTime = 4000;
+        //難易度アップを知らせるアニメーション
         difficultyImage.difficultyImageAnimation();
       } else {
         waitTime = 100;
@@ -466,6 +470,7 @@ export class SceneGame extends Scene {
 
     // タッチ操作をサポートしているブラウザーならば
     if (createjs.Touch.isSupported() == true) {
+      //スマホ版の配置
       let scale: number = 1.1;
       containerBoy.scaleX = scale;
       containerBoy.scaleY = scale;
@@ -514,6 +519,7 @@ export class SceneGame extends Scene {
       window.addEventListener("keyup", (event) => {
         if (keyFlag) {
           keyCode = event.keyCode;
+          //矢印キー押下以外はキーコード0とする
           keyCode = keyCode === 37 || keyCode === 39 ? event.keyCode : 0;
           keyFlag = false;
         }
