@@ -12,22 +12,18 @@ export class SceneResult extends Scene {
   main(): void {
     const mc: lib.PageResult = new lib.PageResult();
     this.sceneContainer.addChild(mc);
-    /*追加 リザルトシート*/
-    //const rs : lib.resultSheet = new lib.resultSheet();
-    //this.sceneContainer.addChild(rs);
-
     /*追加*/
     const sceneGame: SceneGame = new SceneGame(this.gameManager);
     //ゲームシーンのクリア数を取得
-    let clearCount: number = sceneGame.clearCountForResult();
+    let clearCount: number = sceneGame.giveSuccessCount();
     //ゲームシーンのスコアを取得
-    let score: number = sceneGame.scoreForResult();
-    //ゲームシーンの称号を取得
-    let syougou: string = sceneGame.syougouForResult();
+    let score: number = sceneGame.giveScore();
+    //ゲームシーンの評価を取得
+    let evaluation: string = sceneGame.giveRating();
 
     mc.resultSheet.ClearCountText.text = `${clearCount}`;
     mc.resultSheet.ScoreText.text = `${score}`;
-    mc.resultSheet.syougou.text = syougou;
+    mc.resultSheet.evaluation.text = evaluation;
 
     class ResultScene {
       //リザルトシートを取得
@@ -36,42 +32,38 @@ export class SceneResult extends Scene {
       public constructor() {}
 
       //アニメーションのメソッド
-      public animationDown(animationSpeed: number): void {
-        createjs.Tween.get(this.resultSheet).to(
-          {
-            y: animationSpeed,
-          },
-          1500,
-          createjs.Ease.bounceOut
-        );
+      public animationDown(coordinate: number): void {
+        setTimeout(() => {
+          createjs.Tween.get(this.resultSheet).to(
+            {
+              y: coordinate,
+            },
+            1500,
+            createjs.Ease.bounceOut
+          );
+        }, 1000);
       }
     }
 
-    //インスタンスの生成
     const resultScene = new ResultScene();
 
     // タッチ操作をサポートしているブラウザーならば
     if (createjs.Touch.isSupported() == true) {
-      //1秒後にリザルトシートを落とす
-      setTimeout(() => {
-        resultScene.animationDown(400);
-      }, 1000);
+      resultScene.animationDown(400);
       // タッチ操作を有効にします。
       createjs.Touch.enable(this.gameManager.stage);
     } else {
-      //1秒後にリザルトシートを落とす
-      setTimeout(() => {
-        resultScene.animationDown(200);
-      }, 1000);
+      resultScene.animationDown(200);
     }
 
     //ゲームシーンに遷移
     mc.restartButton.addEventListener("click", () => {
       this.gameManager.sceneChange(SceneName.Game);
-      //クリア数とスコアをリセット
-      sceneGame.clearCount_scoreReset();
+      //クリア数とスコアと評価をリセット
+      sceneGame.reset();
     });
-    let strScore = `デンジャラスラーメンで${clearCount}杯を完食！${score}点を獲得！称号「${syougou}」を獲得！`;
+    let strScore = `でんじゃらすらーめんで${clearCount}杯を完食！${score}点を獲得！評価「${evaluation}」を獲得！`;
+    //URLは仮で入れています↓
     let gameUrl = "https://www.p-game.jp/game199/";
     //ラインボタン
     mc.lineButton.addEventListener("click", () => {

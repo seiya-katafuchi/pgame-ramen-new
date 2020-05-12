@@ -176,12 +176,12 @@ p.nominalBounds = new cjs.Rectangle(0,0,160,166);
 	this.shape.graphics.f("#FFFFFF").s().p("ACdE1QAygZAMgWQgfgcgogDIgWADQgpAKgvAfQguAfgfgDQgcgDgfgTQgvgZgQgZIgGgJIgfAGIgmAsQgsAZgcgcIgSgZQgZggAfAAQAPgDAvAQIATAAQBIgvBUgfQgPgGgNgKQgvglgoheQAAgIAPAAQATADAmALQAMgGAJgIQAWgWAHgjQAGgoAAhOQAAg2gDgfIgHgMQgMgWgWgKQgMgJAVAAQAmgGAWAAQAfADAVAfQAMAKAAAZIAAAPQAEAfgHAgIAWgDQANgHgKgMQA8AAAcATQAZAMgDAcQgNATgcAMQglAQggAAQgPAAgTgGQgMAsgVAcIAbgHQAlgGAsADQAsAHAfAkQAAANgJAMQgTAQgZAcQgNAMgMAKQAMAJAAATQgDAMgcADQg7AKiVBBQAGAHAJAGQAyATAjAAQBTgsA4gNQAggDAoAAQAsAAAyAZQAyAZAcAjQAGAJgGAJQgcAZg4ANQgWADgWAAQgpgJgJgKgAhGAlIgQANQAKAcASATQApgQAMgMQAfgZAWgZQgsAAhKASg");
 	this.shape.setTransform(679.167,-442.025);
 
-	this.syougou = new cjs.Text("a", "80px 'HGSGyoshotai'", "#FFFFFF");
-	this.syougou.name = "syougou";
-	this.syougou.textAlign = "center";
-	this.syougou.lineHeight = 82;
-	this.syougou.parent = this;
-	this.syougou.setTransform(517,-359.35);
+	this.evaluation = new cjs.Text("a", "80px 'HGSGyoshotai'", "#FFFFFF");
+	this.evaluation.name = "evaluation";
+	this.evaluation.textAlign = "center";
+	this.evaluation.lineHeight = 82;
+	this.evaluation.parent = this;
+	this.evaluation.setTransform(517,-359.35);
 
 	this.shape_1 = new cjs.Shape();
 	this.shape_1.graphics.f("#FFFFFF").s().p("AjdELQgogZgDgpQADgiAPgsQAQgyAAglQAAgNgTgTIgWAAQgyAmgGAAQgcAGAAgxQAAgWATgGQB9h3AcgyIAMgWQgZgSgWgKQAsgTAfAAIApAQQApAQAAAWQAAAiidCNQgMAJgDAJQAsAYAJAcQAJAZAAA5QAmgsgDgTIgDgJQgEgKAdgMQAfgrAsglIgNgWIAZAMQAugSAJgWQg6gTgZAAIATgNQBpgrApgNQAigMAvADQAvAJADAWQAAATgDADQgZATgyAPQhSAWgZANQgSAJgjAfQAWATANAZIBLgMQAPgmgPgZQgWAAADgJIAZgHQBUgGgJA/IgGAPIAygGQBqgGAMBEQAAASglBVQgsBRhIAAQgZAAgSgcIgWgjIhOAEQgjAAgeAGQgJAJgWADQgggMgZgpQgVglgTgWIgDATQgZB9gmAuQgKALgIAAIgEgBgACvBoQAQAKAGAWQApgWAWhVQAAgPgQgKIgZADIgmANIghBOIgBAAQgDAKAEgKQAMABAPAFgAg3BMQATAQASAiQAYgGAZgJQghgNgMgvgAAyAqQAGAcgGAiIAWgGIAchCQgcAEgWAGgAg6gHQgjAbgMATIApAfIASgZIAggZIgNgrQgQADgPANg");
@@ -245,7 +245,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,160,166);
 	this.shape_11.graphics.f("rgba(0,0,0,0.506)").s().p("EhB2BKqIAA8KMCDtAAAIAAcKgEhB2gufIAA8KMCDtAAAIAAcKg");
 	this.shape_11.setTransform(421.5,-481.45);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_11},{t:this.instance},{t:this.shape_10},{t:this.shape_9},{t:this.shape_8},{t:this.shape_7},{t:this.shape_6},{t:this.shape_5},{t:this.shape_4},{t:this.shape_3},{t:this.ClearCountText},{t:this.ScoreText},{t:this.shape_2},{t:this.shape_1},{t:this.syougou},{t:this.shape}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_11},{t:this.instance},{t:this.shape_10},{t:this.shape_9},{t:this.shape_8},{t:this.shape_7},{t:this.shape_6},{t:this.shape_5},{t:this.shape_4},{t:this.shape_3},{t:this.ClearCountText},{t:this.ScoreText},{t:this.shape_2},{t:this.shape_1},{t:this.evaluation},{t:this.shape}]}).wait(1));
 
 	this._renderFirstFrame();
 
@@ -327,14 +327,14 @@ p.nominalBounds = new cjs.Rectangle(0,0,160,166);
 	this.instance.setTransform(0,-779,1,1.0017);
 
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f("rgba(0,0,0,0.506)").s().p("EhB2BKqIAA8IMCDtAAAIAAcIgEhB2gufIAA8KMCDtAAAIAAcKg");
-	this.shape.setTransform(421.5,-480.575);
+	this.shape.graphics.f("rgba(0,0,0,0.506)").s().p("EhB2BKtIAA8IMCDtAAAIAAcIgEhB2guiIAA8KMCDtAAAIAAcKg");
+	this.shape.setTransform(421.5,-480.25);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape},{t:this.instance}]}).wait(1));
 
 	this._renderFirstFrame();
 
-}).prototype = getMCSymbolPrototype(lib.HelpSheet, new cjs.Rectangle(0,-958.3,843,955.5), null);
+}).prototype = getMCSymbolPrototype(lib.HelpSheet, new cjs.Rectangle(0,-958.3,843,956.1999999999999), null);
 
 
 (lib.HelpButton = function(mode,startPosition,loop) {
@@ -390,12 +390,12 @@ p.nominalBounds = new cjs.Rectangle(0,0,167,166);
 	this.initialize(mode,startPosition,loop,{});
 
 	// Component
-	this.instance = new lib.TopScene();
-	this.instance.setTransform(-1,247,0.7604,0.8087);
-
 	this.helpsheet = new lib.HelpSheet();
 	this.helpsheet.name = "helpsheet";
 	this.helpsheet.setTransform(321.1,-221.45,0.7601,0.7434,0,0,0,421.1,-299.9);
+
+	this.instance = new lib.TopScene();
+	this.instance.setTransform(-1,247,0.7604,0.8087);
 
 	this.helpbutton = new lib.HelpButton();
 	this.helpbutton.name = "helpbutton";
@@ -419,7 +419,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,167,166);
 	this.shape_2.graphics.f("#EA9829").s().p("EAiCATiQEVgGDHhXQDVheAAiEQAAiFjVhdQjUhekuAAQksAAjWBeQjUBdAACFQAACEDUBeQDIBXEVAGMhS7AAAMAAAgnDMBkJAAAMAAAAnDgEgoVAIbQjVBeAACEQAACFDVBeQDVBdEtAAQEtAADVhdQDVhegBiFQABiEjVheQjVhdktAAQktAAjVBdgAqYgwQjVBcAACFQAACEDVBeQDUBeEuAAQErAADVheQDVheAAiEQAAiFjVhcQjVhdkrAAQkuAAjUBdg");
 	this.shape_2.setTransform(319.5,123.2);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_2},{t:this.shape_1},{t:this.shape},{t:this.botan},{t:this.helpbutton},{t:this.helpsheet},{t:this.instance}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_2},{t:this.shape_1},{t:this.shape},{t:this.botan},{t:this.helpbutton},{t:this.instance},{t:this.helpsheet}]}).wait(1));
 
 	// BackGround
 	this.shape_3 = new cjs.Shape();
@@ -485,6 +485,14 @@ p.nominalBounds = new cjs.Rectangle(0,0,167,166);
 	this.initialize(mode,startPosition,loop,{});
 
 	// Component
+	this.startCountDownText = new cjs.Text("3", "96px 'HGPGyoshotai'", "#FF0000");
+	this.startCountDownText.name = "startCountDownText";
+	this.startCountDownText.textAlign = "center";
+	this.startCountDownText.lineHeight = 98;
+	this.startCountDownText.lineWidth = 100;
+	this.startCountDownText.parent = this;
+	this.startCountDownText.setTransform(323.15,337.2,1.6,1.6);
+
 	this.shape = new cjs.Shape();
 	this.shape.graphics.f("#FFFFFF").s().p("AiBBUQgqgoAAhNQACgWAAgQIAEgoIAWAoQAMAoAEAZQASA6AcAVQAYgOASgnQAKgYASgVQgWAvgCAxQAAALgCAUQAAAOgGAMIgQAEQgkgLgiglgABwgLIgSgQQAYAAAEgMQgMg8g4ggQAIgCAWAGQBOASAKBYIgCAQQgCARgMAFQgOgDgegZg");
 	this.shape.setTransform(572.875,758);
@@ -577,7 +585,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,167,166);
 	this.shape_11.graphics.f("#00A99D").s().p("AitGcQgVgxAAhEIAAgPQgtgagogoQhzhzAAijQAAikBzhzQB0h0CjAAQCkAABzB0QB0BzAACkQAACjh0BzQhzB0ikAAQgcAAgbgEQgEAxgPAlQgVAwgdAAQgdAAgUgwg");
 	this.shape_11.setTransform(274.55,275.8);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_11},{t:this.shape_10},{t:this.instance_3},{t:this.instance_2},{t:this.CountDown},{t:this.SuccessCount},{t:this.instance_1},{t:this.shape_9},{t:this.shape_8},{t:this.shape_7},{t:this.ScoreText},{t:this.instance},{t:this.leftbutton},{t:this.rightbutton},{t:this.shape_6},{t:this.shape_5},{t:this.shape_4},{t:this.shape_3},{t:this.shape_2},{t:this.shape_1},{t:this.shape}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_11},{t:this.shape_10},{t:this.instance_3},{t:this.instance_2},{t:this.CountDown},{t:this.SuccessCount},{t:this.instance_1},{t:this.shape_9},{t:this.shape_8},{t:this.shape_7},{t:this.ScoreText},{t:this.instance},{t:this.leftbutton},{t:this.rightbutton},{t:this.shape_6},{t:this.shape_5},{t:this.shape_4},{t:this.shape_3},{t:this.shape_2},{t:this.shape_1},{t:this.shape},{t:this.startCountDownText}]}).wait(1));
 
 	// BackGround
 	this.shape_12 = new cjs.Shape();
@@ -620,27 +628,27 @@ lib.properties = {
 	color: "#CCCCCC",
 	opacity: 1.00,
 	manifest: [
-		{src:"jsgame/images_sp/GameBackScreen_SP.png?1588834728220", id:"GameBackScreen_SP"},
-		{src:"jsgame/images_sp/HelpButton_SP.png?1588834728220", id:"HelpButton_SP"},
-		{src:"jsgame/images_sp/HelpButton_SP_Push.png?1588834728220", id:"HelpButton_SP_Push"},
-		{src:"jsgame/images_sp/helpsheet_SP.png?1588834728220", id:"helpsheet_SP"},
-		{src:"jsgame/images_sp/LeftButton.png?1588834728220", id:"LeftButton"},
-		{src:"jsgame/images_sp/LeftButtonPush.png?1588834728220", id:"LeftButtonPush"},
-		{src:"jsgame/images_sp/LineButton_SP.png?1588834728220", id:"LineButton_SP"},
-		{src:"jsgame/images_sp/LineButton_SP_Push.png?1588834728220", id:"LineButton_SP_Push"},
-		{src:"jsgame/images_sp/owan.png?1588834728220", id:"owan"},
-		{src:"jsgame/images_sp/RestartButton_SP.png?1588834728220", id:"RestartButton_SP"},
-		{src:"jsgame/images_sp/RestartButton_SP_Push.png?1588834728220", id:"RestartButton_SP_Push"},
-		{src:"jsgame/images_sp/ResultScene.png?1588834728220", id:"ResultScene"},
-		{src:"jsgame/images_sp/ResultSheet.png?1588834728220", id:"ResultSheet"},
-		{src:"jsgame/images_sp/RightButton.png?1588834728220", id:"RightButton"},
-		{src:"jsgame/images_sp/RightButtonPush.png?1588834728220", id:"RightButtonPush"},
-		{src:"jsgame/images_sp/shape.png?1588834728220", id:"shape"},
-		{src:"jsgame/images_sp/StartButton_SP.png?1588834728220", id:"StartButton_SP"},
-		{src:"jsgame/images_sp/StartButton_SP_Push.png?1588834728220", id:"StartButton_SP_Push"},
-		{src:"jsgame/images_sp/TopScene.png?1588834728220", id:"TopScene"},
-		{src:"jsgame/images_sp/TwitterButton_SP.png?1588834728220", id:"TwitterButton_SP"},
-		{src:"jsgame/images_sp/TwitterButton_SP_Push.png?1588834728220", id:"TwitterButton_SP_Push"}
+		{src:"jsgame/images_sp/GameBackScreen_SP.png?1589254141089", id:"GameBackScreen_SP"},
+		{src:"jsgame/images_sp/HelpButton_SP.png?1589254141089", id:"HelpButton_SP"},
+		{src:"jsgame/images_sp/HelpButton_SP_Push.png?1589254141089", id:"HelpButton_SP_Push"},
+		{src:"jsgame/images_sp/helpsheet_SP.png?1589254141089", id:"helpsheet_SP"},
+		{src:"jsgame/images_sp/LeftButton.png?1589254141089", id:"LeftButton"},
+		{src:"jsgame/images_sp/LeftButtonPush.png?1589254141089", id:"LeftButtonPush"},
+		{src:"jsgame/images_sp/LineButton_SP.png?1589254141089", id:"LineButton_SP"},
+		{src:"jsgame/images_sp/LineButton_SP_Push.png?1589254141089", id:"LineButton_SP_Push"},
+		{src:"jsgame/images_sp/owan.png?1589254141089", id:"owan"},
+		{src:"jsgame/images_sp/RestartButton_SP.png?1589254141089", id:"RestartButton_SP"},
+		{src:"jsgame/images_sp/RestartButton_SP_Push.png?1589254141089", id:"RestartButton_SP_Push"},
+		{src:"jsgame/images_sp/ResultScene.png?1589254141089", id:"ResultScene"},
+		{src:"jsgame/images_sp/ResultSheet.png?1589254141089", id:"ResultSheet"},
+		{src:"jsgame/images_sp/RightButton.png?1589254141089", id:"RightButton"},
+		{src:"jsgame/images_sp/RightButtonPush.png?1589254141089", id:"RightButtonPush"},
+		{src:"jsgame/images_sp/shape.png?1589254141089", id:"shape"},
+		{src:"jsgame/images_sp/StartButton_SP.png?1589254141089", id:"StartButton_SP"},
+		{src:"jsgame/images_sp/StartButton_SP_Push.png?1589254141089", id:"StartButton_SP_Push"},
+		{src:"jsgame/images_sp/TopScene.png?1589254141089", id:"TopScene"},
+		{src:"jsgame/images_sp/TwitterButton_SP.png?1589254141089", id:"TwitterButton_SP"},
+		{src:"jsgame/images_sp/TwitterButton_SP_Push.png?1589254141089", id:"TwitterButton_SP_Push"}
 	],
 	preloads: []
 };
