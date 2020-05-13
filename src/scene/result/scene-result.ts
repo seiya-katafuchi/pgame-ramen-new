@@ -12,20 +12,32 @@ export class SceneResult extends Scene {
   main(): void {
     const mc: lib.PageResult = new lib.PageResult();
     this.sceneContainer.addChild(mc);
-    /*追加*/
+    //ゲームシーンのメソッドを使用できるように
     const sceneGame: SceneGame = new SceneGame(this.gameManager);
-    //ゲームシーンのクリア数を取得
-    let clearCount: number = sceneGame.giveSuccessCount();
-    //ゲームシーンのスコアを取得
-    let score: number = sceneGame.giveScore();
-    //ゲームシーンの評価を取得
-    let evaluation: string = sceneGame.giveRating();
+    //クリア数
+    let clearCount: number = 0;
+    //スコア
+    let score: number = 0;
+    //評価
+    let evaluation: string = "";
+    //ゲームシーンのクリア数、スコア、評価を取得
+    sceneGame.giveResultData(
+      (successCount: number, sc: number, eva: string) => {
+        clearCount = successCount;
+        score = sc;
+        evaluation = eva;
+      }
+    );
 
     mc.resultSheet.ClearCountText.text = `${clearCount}`;
     mc.resultSheet.ScoreText.text = `${score}`;
     mc.resultSheet.evaluation.text = evaluation;
 
-    class ResultScene {
+    interface ResultSceneFormat {
+      animationDown(coordinate: number): void;
+    }
+
+    class ResultScene implements ResultSceneFormat {
       //リザルトシートを取得
       private resultSheet: createjs.MovieClip = mc.resultSheet;
 
@@ -62,7 +74,7 @@ export class SceneResult extends Scene {
       //クリア数とスコアと評価をリセット
       sceneGame.reset();
     });
-    let strScore = `でんじゃらすらーめんで${clearCount}杯を完食！${score}点を獲得！評価「${evaluation}」を獲得！`;
+    let strScore = `でんじゃらすらーめんで${clearCount}杯をクリア！${score}点を獲得！評価「${evaluation}」を獲得！`;
     //URLは仮で入れています↓
     let gameUrl = "https://www.p-game.jp/game199/";
     //ラインボタン

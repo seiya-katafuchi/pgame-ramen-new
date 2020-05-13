@@ -29,10 +29,10 @@ export class SceneTop extends Scene {
       public constructor() {}
 
       //ヘルプシートをダウンさせる
-      public animationDown(animationSpeed: number): void {
+      public animationDown(coordinate: number): void {
         createjs.Tween.get(this.helpsheet).to(
           {
-            y: animationSpeed,
+            y: coordinate,
           },
           1500,
           createjs.Ease.bounceOut
@@ -40,10 +40,10 @@ export class SceneTop extends Scene {
       }
 
       //ヘルプシートをアップさせる
-      public animationUp(animationSpeed: number): void {
+      public animationUp(coordinate: number): void {
         createjs.Tween.get(this.helpsheet).to(
           {
-            y: -animationSpeed,
+            y: -coordinate,
           },
           1500
         );
@@ -70,10 +70,11 @@ export class SceneTop extends Scene {
       // タッチ操作を有効にします。
       createjs.Touch.enable(this.gameManager.stage);
     } else {
-      // リスナーの登録
+      //スタートボタン
       mc.botan.on("click", () => {
         this.gameManager.sceneChange(SceneName.Game);
       });
+      //ヘルプボタン
       mc.helpbutton.on("click", () => {
         if (topScene.hasAnimation) {
           topScene.animationDown(220);
