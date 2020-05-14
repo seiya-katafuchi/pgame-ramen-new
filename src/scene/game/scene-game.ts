@@ -1,6 +1,9 @@
 import { Scene } from "../scene";
 import { SceneName } from "../scene-name";
 import { GameManager } from "../../game-manager";
+//import { TextField } from "../../TextField";
+
+/*テキストフィールド使いませんでした。（エラー解決できませんでした）*/
 
 //成功数
 let successCount: number = 0;
@@ -23,6 +26,8 @@ export class SceneGame extends Scene {
     //game.tsのメソッドを使用
     //this.gameManager.game.pgameAdPopUp();
 
+    //const a = new TextField("0", new lib.nannidoup(), 0, 7);
+
     //カウントダウン(ゲーム中の)
     mc.CountDown.text = "1";
 
@@ -38,7 +43,7 @@ export class SceneGame extends Scene {
     //スタートカウントダウンのための変数
     let gameStartCountDown: number = 3;
 
-    //PC版のキー入力回数制限
+    //PC版の矢印キー入力回数制限
     let inputLimit: boolean = true;
 
     interface GameSceneFormat {
@@ -76,6 +81,8 @@ export class SceneGame extends Scene {
       evaluationGive(): void;
       difficultyImageAnimation(): void;
     }
+
+    /*クラスの組み方がなんかよくないと思います*/
 
     //ゲームシーンのクラス
     class GameScene implements GameSceneFormat {
@@ -157,7 +164,7 @@ export class SceneGame extends Scene {
             //タイムアウト状態の画像に切り替える
             this.timeOut();
             clearInterval(this.id);
-            //タイムアウト状態にする
+            //タイムアウト状態の画像にする
             this.hasTimeOut = true;
           }
         }, 100);
@@ -219,7 +226,7 @@ export class SceneGame extends Scene {
         shopKeeper.shopKeeper_1.visible = true;
         this.deleteRamen();
       }
-      //カウントダウンの秒数を返す処理(難易度アップ)
+      //クリア数に応じてカウントダウンの秒数を返す処理(難易度アップ)
       public returnCountDown(): number {
         let countTime: number;
         if (successCount <= 20) {
@@ -538,7 +545,6 @@ export class SceneGame extends Scene {
             buttonCode = 37;
             console.log(`押したキー「←」`);
             gameScene.isKeyInputRestriction = false;
-            //カウントダウン中に
             gameScene.isKeyDownEnabled = false;
             clearInterval(gameScene.id);
           }
@@ -566,7 +572,8 @@ export class SceneGame extends Scene {
           keyCode = event.keyCode;
           //矢印キー押下以外はキーコード0とする
           keyCode = keyCode === 37 || keyCode === 39 ? event.keyCode : 0;
-          inputLimit = false;
+          //矢印キー以外を押したときはまだキー入力を受け付ける
+          inputLimit = keyCode === 37 || keyCode === 39 ? false : true;
         }
         if (keyCode === 37) {
           //カウントダウン中のみ押せるようにする
