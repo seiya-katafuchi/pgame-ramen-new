@@ -51,6 +51,7 @@ export class SceneGame extends Scene {
       boyGameOver_1: createjs.Bitmap;
       boyGameOver_2: createjs.Bitmap;
       boyClear: createjs.Bitmap;
+      boyNotEat: createjs.Bitmap;
       shopKeeper_1: createjs.Bitmap;
       shopKeeper_2: createjs.Bitmap;
       shopKeeperAngry: createjs.Bitmap;
@@ -98,6 +99,9 @@ export class SceneGame extends Scene {
       );
       public boyClear: createjs.Bitmap = new createjs.Bitmap(
         "../../../jsgame/images_pc/Boy-Clear.png"
+      );
+      public boyNotEat: createjs.Bitmap = new createjs.Bitmap(
+        "../../../jsgame/images_pc/Boy-do-not-eat.png"
       );
       //店主
       public shopKeeper_1: createjs.Bitmap = new createjs.Bitmap(
@@ -160,6 +164,7 @@ export class SceneGame extends Scene {
           //小数第一位以下切り捨て
           this.count = Math.round(countDownTime * 10) / 10;
           mc.CountDown.text = `${this.count}`;
+          gauge.scaleX = this.count;
           if (countDownTime <= 0.1) {
             //タイムアウト状態の画像に切り替える
             this.timeOut();
@@ -188,6 +193,7 @@ export class SceneGame extends Scene {
         shopKeeper.shopKeeper_1.visible = false;
         boy.boyNormal.visible = true;
         boy.boyClear.visible = false;
+        boy.boyNotEat.visible = false;
         return this.randomRamen();
       }
       //ラーメンを食べたときの画像状態
@@ -224,6 +230,7 @@ export class SceneGame extends Scene {
         maru_batsu.maru.visible = true;
         shopKeeper.shopKeeper_2.visible = false;
         shopKeeper.shopKeeper_1.visible = true;
+        boy.boyNotEat.visible = true;
         this.deleteRamen();
       }
       //クリア数に応じてカウントダウンの秒数を返す処理(難易度アップ)
@@ -340,6 +347,7 @@ export class SceneGame extends Scene {
     containerBoy.addChild(boy.boyGameOver_1);
     containerBoy.addChild(boy.boyGameOver_2);
     containerBoy.addChild(boy.boyClear);
+    containerBoy.addChild(boy.boyNotEat);
     boy.boyNormal.visible = true;
     boy.boyNormal.x = 30;
     boy.boyGameOver_1.visible = false;
@@ -350,6 +358,8 @@ export class SceneGame extends Scene {
     boy.boyGameOver_2.y = -60;
     boy.boyClear.visible = false;
     boy.boyClear.y = -60;
+    boy.boyNotEat.visible = false;
+    boy.boyNotEat.x = 30;
 
     //マルバツ
     const maru_batsu = new GameScene();
@@ -368,6 +378,14 @@ export class SceneGame extends Scene {
     const difficultyImage = new GameScene();
     difficultyImage.difficultyImage.y = -150;
     this.sceneContainer.addChild(difficultyImage.difficultyImage);
+
+    // ゲージ
+    let gauge = new createjs.Shape();
+    gauge.graphics.beginFill("Green"); // 緑色で描画するように設定
+    gauge.graphics.drawRect(0, 0, 200, 25); // 長方形を描画
+    gauge.x = 160;
+    gauge.y = 50;
+    this.sceneContainer.addChild(gauge);
 
     /*スタートカウントダウン後の最初の動作　画像の状態を切り替え、出すラーメンを決める*/
     const firstAction = () => {
@@ -471,7 +489,7 @@ export class SceneGame extends Scene {
         //難易度アップを知らせるアニメーション
         difficultyImage.difficultyImageAnimation();
       } else {
-        waitTime = 200;
+        waitTime = 400;
       }
       new Promise(() => {
         setTimeout(() => {
