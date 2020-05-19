@@ -81,6 +81,10 @@ export class SceneGame extends Scene {
       returnCountDown(): number;
       evaluationGive(): void;
       difficultyImageAnimation(): void;
+      firstAnimation(): void;
+      clearTextAnimation(): void;
+      scoreTextAnimation(score: number): void;
+      vibrationAnimation(): void;
     }
 
     /*クラスの組み方がなんかよくないと思います*/
@@ -156,7 +160,7 @@ export class SceneGame extends Scene {
       public isKeyInputRestriction: boolean = true;
       public constructor() {}
       //カウントダウンする処理
-      public countDownStart(countDownTime: number): void {
+      public countDownStart(countDownTime: number) {
         //キー入力できるようにする
         this.isKeyDownEnabled = true;
         this.id = setInterval(() => {
@@ -164,13 +168,16 @@ export class SceneGame extends Scene {
           //小数第一位以下切り捨て
           this.count = Math.round(countDownTime * 10) / 10;
           mc.CountDown.text = `${this.count}`;
-          gauge.scaleX = this.count;
+          //gauge.scaleX = this.count;
           if (countDownTime <= 0.1) {
             //タイムアウト状態の画像に切り替える
             this.timeOut();
             clearInterval(this.id);
             //タイムアウト状態の画像にする
             this.hasTimeOut = true;
+            //ゲーム評価を与える処理
+            gameScene.evaluationGive();
+            sceneChage();
           }
         }, 100);
       }
@@ -290,9 +297,111 @@ export class SceneGame extends Scene {
           .wait(2000)
           .to({ y: -150 }, 1000);
       }
+      //最初に行うアニメーション
+      public firstAnimation(): void {
+        createjs.Tween.get(containerBoy).to({ x: 0 }, 500);
+        createjs.Tween.get(containerShopKeeper).to({ x: 400 }, 500);
+        createjs.Tween.get(mc.startCountDownText)
+          .to({ alpha: 0.1 }, 999)
+          .to({ alpha: 1 }, 1)
+          .to({ alpha: 0.1 }, 999)
+          .to({ alpha: 1 }, 1)
+          .to({ alpha: 0.1 }, 999)
+          .to({ alpha: 1 }, 1)
+          .to({ alpha: 0.1 }, 999);
+      }
+      //テキストのアニメーション
+      public clearTextAnimation(): void {
+        addClearText.alpha = 1.0;
+        createjs.Tween.get(addClearText)
+          .to({ y: 50, alpha: 0 }, 600)
+          .to({ y: 70 }, 1);
+      }
+      public scoreTextAnimation(score: number): void {
+        addScoreText.alpha = 1.0;
+        addScoreText.text = `+${score}`;
+        createjs.Tween.get(addScoreText)
+          .to({ y: 50, alpha: 0 }, 600)
+          .to({ y: 70 }, 1);
+      }
+      //ゲームオーバー時のアニメーション
+      public vibrationAnimation(): void {
+        let xValue: number = 30;
+        let time: number = 50;
+        createjs.Tween.get(containerBoy)
+          //ループつけられなかった。。。↑
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time)
+          .to({ x: -xValue }, time)
+          .to({ x: xValue }, time);
+      }
     }
 
     const gameScene = new GameScene();
+
+    //クリア時のテキストのアニメーション
+    let addClearText: createjs.Text = new createjs.Text(
+      "+1",
+      "50px HGP行書体",
+      "Brack"
+    );
+    addClearText.x = 120;
+    addClearText.y = 70;
+    let addScoreText: createjs.Text = new createjs.Text(
+      "+900",
+      "50px HGP行書体",
+      "Brack"
+    );
+    addScoreText.x = 312;
+    addScoreText.y = 70;
+    addClearText.alpha = 0.0;
+    addScoreText.alpha = 0.0;
+    this.sceneContainer.addChild(addClearText);
+    this.sceneContainer.addChild(addScoreText);
 
     //ラーメン
     const ramen = new GameScene();
@@ -318,7 +427,8 @@ export class SceneGame extends Scene {
     const containerShopKeeper: createjs.Container = new createjs.Container();
     containerShopKeeper.scaleX = 0.8;
     containerShopKeeper.scaleY = 0.8;
-    containerShopKeeper.x = 400;
+    //400
+    containerShopKeeper.x = -150;
     containerShopKeeper.y = 17.5;
     this.sceneContainer.addChild(containerShopKeeper);
     containerShopKeeper.addChild(shopKeeper.shopKeeper_1);
@@ -341,6 +451,8 @@ export class SceneGame extends Scene {
     const containerBoy: createjs.Container = new createjs.Container();
     containerBoy.scaleX = 0.8;
     containerBoy.scaleY = 0.8;
+    //もともとなかったやつ↓
+    containerBoy.x = 640;
     containerBoy.y = 240;
     this.sceneContainer.addChild(containerBoy);
     containerBoy.addChild(boy.boyNormal);
@@ -365,7 +477,8 @@ export class SceneGame extends Scene {
     const maru_batsu = new GameScene();
     const containerMaruBatsu: createjs.Container = new createjs.Container();
     containerMaruBatsu.x = 160;
-    containerMaruBatsu.y = 50;
+    //元々50↓
+    containerMaruBatsu.y = 100;
     this.sceneContainer.addChild(containerMaruBatsu);
     containerMaruBatsu.addChild(maru_batsu.maru);
     containerMaruBatsu.addChild(maru_batsu.batsu);
@@ -380,30 +493,37 @@ export class SceneGame extends Scene {
     this.sceneContainer.addChild(difficultyImage.difficultyImage);
 
     // ゲージ
-    let gauge = new createjs.Shape();
+    /*let gauge = new createjs.Shape();
     gauge.graphics.beginFill("Green"); // 緑色で描画するように設定
     gauge.graphics.drawRect(0, 0, 200, 25); // 長方形を描画
     gauge.x = 160;
     gauge.y = 50;
-    this.sceneContainer.addChild(gauge);
+    this.sceneContainer.addChild(gauge);*/
+
+    let randomRamen2: number;
 
     /*スタートカウントダウン後の最初の動作　画像の状態を切り替え、出すラーメンを決める*/
     const firstAction = () => {
       //出すラーメンをランダムに決めている
-      let randomRamen: number = gameScene.firstState();
-      //0は激辛ラーメン1から4まではそれ以外
-      if (randomRamen === 0) {
-        ramen.ramenGekikara.visible = true;
-      } else if (randomRamen === 1) {
-        ramen.ramenMiso.visible = true;
-      } else if (randomRamen === 2) {
-        ramen.ramenTonkotsu.visible = true;
-      } else if (randomRamen === 3) {
-        ramen.ramenSyouyu.visible = true;
-      } else if (randomRamen === 4) {
-        ramen.ramenShio.visible = true;
+      randomRamen2 = gameScene.firstState();
+      switch (randomRamen2) {
+        case 0:
+          ramen.ramenGekikara.visible = true;
+          break;
+        case 1:
+          ramen.ramenMiso.visible = true;
+          break;
+        case 2:
+          ramen.ramenTonkotsu.visible = true;
+          break;
+        case 3:
+          ramen.ramenSyouyu.visible = true;
+          break;
+        case 4:
+          ramen.ramenShio.visible = true;
+          break;
       }
-      return randomRamen;
+      return randomRamen2;
     };
     /*カウントダウンをスタートさせる*/
     const secondAction = (randomRamen: number) => {
@@ -411,71 +531,75 @@ export class SceneGame extends Scene {
       let decreaseCountDown = gameScene.returnCountDown();
       //カウントダウンの開始
       gameScene.countDownStart(decreaseCountDown);
-      return randomRamen;
     };
-    /*↓成功か失敗かを判定する　※keyCodeはPC版の矢印キー buttonCodeはSP版の操作用のボタン*/
-    const thirdAction = (randomRamen: number) => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          //激辛ラーメンを食べたときの処理
-          if (randomRamen === 0 && (keyCode === 37 || buttonCode === 37)) {
-            //評価を与え、画像状態を切り替え
-            gameScene.evaluationGive();
-            gameScene.gameOver();
-            reject("失敗");
-          }
-          //激辛ラーメンを食べなかったときの処理
-          else if (randomRamen === 0 && (keyCode === 39 || buttonCode === 39)) {
-            //クリア数を加算
-            successCount++;
-            mc.SuccessCount.text = `${successCount}`;
-            //激辛ラーメンを食べないと選択したときの画像状態に切り替え
-            gameScene.gekikaraRefusal();
-            resolve();
-          }
-          //激辛ラーメン以外を食べたときの処理(クリアの時)
-          else if (
-            (randomRamen === 1 ||
-              randomRamen === 2 ||
-              randomRamen === 3 ||
-              randomRamen === 4) &&
-            (keyCode === 37 || buttonCode === 37)
-          ) {
-            //クリア数を加算
-            successCount++;
-            //スコアの計算　止めた秒数 * 1000
-            scoreText += gameScene.count * 1000;
-            mc.SuccessCount.text = `${successCount}`;
-            mc.ScoreText.text = `${scoreText}`;
-            //クリアしたときの画像状態に切り替え
-            gameScene.clearGame();
-            resolve();
-          }
-          //激辛ラーメン以外を食べなかった時の処理
-          else if (
-            (randomRamen === 1 ||
-              randomRamen === 2 ||
-              randomRamen === 3 ||
-              randomRamen === 4) &&
-            (keyCode === 39 || buttonCode === 39)
-          ) {
-            //ゲーム評価を与え、画像状態切り替え
-            gameScene.evaluationGive();
-            gameScene.mistakeRamen();
-            reject("失敗");
-          }
-          //時間切れとなったときの処理　keyCodeとbuttonCodeの0は何も押していないか矢印キー以外を押したとみなす
-          else if (gameScene.hasTimeOut || keyCode === 0 || buttonCode === 0) {
-            //ゲーム評価を与える処理
-            gameScene.evaluationGive();
-            reject("失敗");
-          }
-          //↓カウントダウンの秒数×1000
-        }, gameScene.returnCountDown() * 1000);
-      });
+
+    //押した矢印キーと出されたラーメンによってクリアかゲームオーバーかを判定する関数
+    const judgment = (randomRamen: number) => {
+      //激辛ラーメンを食べたときの処理
+      if (randomRamen === 0 && (keyCode === 37 || buttonCode === 37)) {
+        gameScene.vibrationAnimation();
+        //評価を与え、画像状態を切り替え
+        gameScene.evaluationGive();
+        gameScene.gameOver();
+        sceneChage();
+      }
+      //激辛ラーメンを食べなかったときの処理
+      else if (randomRamen === 0 && (keyCode === 39 || buttonCode === 39)) {
+        //クリア数を加算
+        successCount++;
+        mc.SuccessCount.text = `${successCount}`;
+        //クリア数を増やすアニメーション
+        gameScene.clearTextAnimation();
+        //激辛ラーメンを食べないと選択したときの画像状態に切り替え
+        gameScene.gekikaraRefusal();
+        reset_animation();
+      }
+      //激辛ラーメン以外を食べたときの処理(クリアの時)
+      else if (
+        (randomRamen === 1 ||
+          randomRamen === 2 ||
+          randomRamen === 3 ||
+          randomRamen === 4) &&
+        (keyCode === 37 || buttonCode === 37)
+      ) {
+        //クリア数を加算
+        successCount++;
+        //スコアの計算　止めた秒数 * 1000
+        scoreText += gameScene.count * 1000;
+        mc.SuccessCount.text = `${successCount}`;
+        mc.ScoreText.text = `${scoreText}`;
+        //クリア数を増やすアニメーション
+        gameScene.clearTextAnimation();
+        //スコアを増やすアニメーション
+        gameScene.scoreTextAnimation(gameScene.count * 1000);
+        //クリアしたときの画像状態に切り替え
+        gameScene.clearGame();
+        reset_animation();
+      }
+      //激辛ラーメン以外を食べなかった時の処理
+      else if (
+        (randomRamen === 1 ||
+          randomRamen === 2 ||
+          randomRamen === 3 ||
+          randomRamen === 4) &&
+        (keyCode === 39 || buttonCode === 39)
+      ) {
+        gameScene.vibrationAnimation();
+        //ゲーム評価を与え、画像状態切り替え
+        gameScene.evaluationGive();
+        gameScene.mistakeRamen();
+        sceneChage();
+      }
+      //時間切れとなったときの処理　keyCodeとbuttonCodeの0は何も押していないか矢印キー以外を押したとみなす
+      else if (gameScene.hasTimeOut || keyCode === 0 || buttonCode === 0) {
+        gameScene.vibrationAnimation();
+        //ゲーム評価を与える処理
+        gameScene.evaluationGive();
+      }
     };
+
     /*判定でクリアとみなしたら処理*/
-    const fourthAction = () => {
+    const reset_animation = () => {
       //難易度アップするタイミング
       if (
         successCount === 20 ||
@@ -489,37 +613,35 @@ export class SceneGame extends Scene {
         //難易度アップを知らせるアニメーション
         difficultyImage.difficultyImageAnimation();
       } else {
-        waitTime = 400;
+        waitTime = 600;
       }
-      new Promise(() => {
-        setTimeout(() => {
-          //キー入力回数制限を解除
-          gameScene.isKeyInputRestriction = true;
-          //PC版のキー入力回数制限を解除
-          inputLimit = true;
-          //何も押していない状態に戻す
-          keyCode = 0;
-          buttonCode = 0;
-          //firstActionから再スタート
-          seriesOfAction();
-        }, waitTime);
-      });
+      setTimeout(() => {
+        //キー入力回数制限を解除
+        gameScene.isKeyInputRestriction = true;
+        //PC版のキー入力回数制限を解除
+        inputLimit = true;
+        //何も押していない状態に戻す
+        keyCode = 0;
+        buttonCode = 0;
+        //firstActionから再スタート
+        seriesOfAction();
+      }, waitTime);
     };
+
     //ゲームの一連の動作
-    const seriesOfAction = async () => {
-      try {
-        let ramenNumber: number = firstAction();
-        ramenNumber = secondAction(ramenNumber);
-        await thirdAction(ramenNumber);
-        await fourthAction();
-      } catch (message) {
-        console.log(message);
-        //3秒後にリザルトシーンへ
-        setTimeout(() => {
-          this.gameManager.sceneChange(SceneName.Result);
-        }, 3000);
-      }
+    const seriesOfAction = () => {
+      let ramenNumber: number = firstAction();
+      secondAction(ramenNumber);
     };
+
+    const sceneChage = (): void => {
+      //3秒後にリザルトシーンへ
+      setTimeout(() => {
+        this.gameManager.sceneChange(SceneName.Result);
+      }, 2000);
+    };
+
+    gameScene.firstAnimation();
 
     //ゲームスタート時のカウントダウン(一番最初に実行される)
     let startId = setInterval(() => {
@@ -561,10 +683,10 @@ export class SceneGame extends Scene {
           //一回しか押せないようにする
           if (gameScene.isKeyInputRestriction) {
             buttonCode = 37;
-            console.log(`押したキー「←」`);
             gameScene.isKeyInputRestriction = false;
             gameScene.isKeyDownEnabled = false;
             clearInterval(gameScene.id);
+            judgment(randomRamen2);
           }
         }
       });
@@ -575,10 +697,10 @@ export class SceneGame extends Scene {
           //一回しか押せないようにする
           if (gameScene.isKeyInputRestriction) {
             buttonCode = 39;
-            console.log(`押したキー「→」`);
             gameScene.isKeyInputRestriction = false;
             gameScene.isKeyDownEnabled = false;
             clearInterval(gameScene.id);
+            judgment(randomRamen2);
           }
         }
       });
@@ -600,10 +722,10 @@ export class SceneGame extends Scene {
           }
           //一回しか押せないようにする
           else if (gameScene.isKeyInputRestriction) {
-            console.log(`押したキー「←」`);
             gameScene.isKeyInputRestriction = false;
             gameScene.isKeyDownEnabled = false;
             clearInterval(gameScene.id);
+            judgment(randomRamen2);
           }
         } else if (keyCode === 39) {
           //カウントダウン中のみ押せるようにする
@@ -612,10 +734,10 @@ export class SceneGame extends Scene {
           }
           //一回しか押せないようにする
           else if (gameScene.isKeyInputRestriction) {
-            console.log("押したキー「→」");
             gameScene.isKeyInputRestriction = false;
             gameScene.isKeyDownEnabled = false;
             clearInterval(gameScene.id);
+            judgment(randomRamen2);
           }
         }
       });
