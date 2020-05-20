@@ -1,6 +1,7 @@
 import { Scene } from "../scene";
 import { SceneName } from "../scene-name";
 import { GameManager } from "../../game-manager";
+import * as eeee from "../Functions/ImageSwitching";
 //import { TextField } from "../../TextField";
 
 /*テキストフィールド使いませんでした。（エラー解決できませんでした）*/
@@ -64,6 +65,8 @@ export class SceneGame extends Scene {
       batsu: createjs.Bitmap;
       gameOverBackScreen: createjs.Bitmap;
       difficultyImage: createjs.Bitmap;
+      shuchusen: createjs.Bitmap;
+      don: createjs.Bitmap;
 
       isKeyDownEnabled: boolean;
       hasTimeOut: boolean;
@@ -148,6 +151,14 @@ export class SceneGame extends Scene {
       public difficultyImage: createjs.Bitmap = new createjs.Bitmap(
         "../../../jsgame/images_pc/nannidoupsheet.png"
       );
+      //集中線
+      public shuchusen: createjs.Bitmap = new createjs.Bitmap(
+        "../../../jsgame/images_pc/shuchu-sen-_black.png"
+      );
+      //ドン
+      public don: createjs.Bitmap = new createjs.Bitmap(
+        "../../../jsgame/images_pc/don.png"
+      );
       //キーボード操作が有効かを判定
       public isKeyDownEnabled: boolean = false;
       //タイムアウトしたかを判定
@@ -192,6 +203,9 @@ export class SceneGame extends Scene {
         boy.boyGameOver_2.visible = true;
         boy.boyNormal.visible = false;
         backScreen_GameOver.gameOverBackScreen.visible = true;
+        shuchusen.shuchusen.visible = false;
+        don.don.visible = false;
+        gameScene.vibrationAnimation();
       }
       //最初の画像の状態と出すラーメンを決める
       public firstState(): number {
@@ -264,13 +278,15 @@ export class SceneGame extends Scene {
           Math.floor(Math.random() * (max + 1 - min)) + min;
         return randomNumber;
       }
-      //ラーメンを消す処理
+      //ラーメンと集中線を消す処理
       private deleteRamen(): void {
         ramen.ramenMiso.visible = false;
         ramen.ramenGekikara.visible = false;
         ramen.ramenTonkotsu.visible = false;
         ramen.ramenSyouyu.visible = false;
         ramen.ramenShio.visible = false;
+        shuchusen.shuchusen.visible = false;
+        don.don.visible = false;
       }
       //評価を決める処理
       public evaluationGive(): void {
@@ -326,61 +342,14 @@ export class SceneGame extends Scene {
       }
       //ゲームオーバー時のアニメーション
       public vibrationAnimation(): void {
-        let xValue: number = 30;
-        let time: number = 50;
-        createjs.Tween.get(containerBoy)
-          //ループつけられなかった。。。↑
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time)
+        const xValue: number = 30;
+        const time: number = 50;
+        createjs.Tween.get(containerBoy, { loop: true })
           .to({ x: -xValue }, time)
           .to({ x: xValue }, time);
       }
     }
-
+    //eeee.ImageSwitching.a();
     const gameScene = new GameScene();
 
     //クリア時のテキストのアニメーション
@@ -492,6 +461,20 @@ export class SceneGame extends Scene {
     difficultyImage.difficultyImage.y = -150;
     this.sceneContainer.addChild(difficultyImage.difficultyImage);
 
+    //集中線の画像
+    const shuchusen = new GameScene();
+    shuchusen.shuchusen.scaleX = 0.5;
+    shuchusen.shuchusen.scaleY = 0.384;
+    shuchusen.shuchusen.visible = false;
+    this.sceneContainer.addChild(shuchusen.shuchusen);
+
+    //ドンの画像
+    const don = new GameScene();
+    don.don.visible = false;
+    don.don.x = 270;
+    don.don.y = 150;
+    this.sceneContainer.addChild(don.don);
+
     // ゲージ
     /*let gauge = new createjs.Shape();
     gauge.graphics.beginFill("Green"); // 緑色で描画するように設定
@@ -523,10 +506,13 @@ export class SceneGame extends Scene {
           ramen.ramenShio.visible = true;
           break;
       }
-      return randomRamen2;
+      shuchusen.shuchusen.visible = true;
+      don.don.visible = true;
+      createjs.Tween.get(don).to({ y: 100, alpha: 0 }, 500).to({ y: 150 }, 1);
+      //gameScene.donTextAnimation();
     };
     /*カウントダウンをスタートさせる*/
-    const secondAction = (randomRamen: number) => {
+    const secondAction = () => {
       //クリア数に応じてカウントダウンの秒数を決める
       let decreaseCountDown = gameScene.returnCountDown();
       //カウントダウンの開始
@@ -592,7 +578,6 @@ export class SceneGame extends Scene {
       }
       //時間切れとなったときの処理　keyCodeとbuttonCodeの0は何も押していないか矢印キー以外を押したとみなす
       else if (gameScene.hasTimeOut || keyCode === 0 || buttonCode === 0) {
-        gameScene.vibrationAnimation();
         //ゲーム評価を与える処理
         gameScene.evaluationGive();
       }
@@ -630,15 +615,15 @@ export class SceneGame extends Scene {
 
     //ゲームの一連の動作
     const seriesOfAction = () => {
-      let ramenNumber: number = firstAction();
-      secondAction(ramenNumber);
+      firstAction();
+      secondAction();
     };
 
     const sceneChage = (): void => {
       //3秒後にリザルトシーンへ
       setTimeout(() => {
         this.gameManager.sceneChange(SceneName.Result);
-      }, 2000);
+      }, 3000);
     };
 
     gameScene.firstAnimation();
