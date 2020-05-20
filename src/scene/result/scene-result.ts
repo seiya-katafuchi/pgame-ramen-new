@@ -74,7 +74,7 @@ export class SceneResult extends Scene {
       //クリア数とスコアと評価をリセット
       sceneGame.reset();
     });
-    let strScore = `でんじゃらすらーめんで${clearCount}杯をクリア！${score}点を獲得！評価「${evaluation}」を獲得！`;
+    let strScore = `デンジャラスラーメンで${clearCount}杯をクリア！${score}点を獲得！評価「${evaluation}」を獲得！`;
     //URLは仮で入れています↓
     let gameUrl = "https://www.p-game.jp/game199/";
     //ラインボタン

@@ -1,10 +1,9 @@
 import { Scene } from "../scene";
 import { SceneName } from "../scene-name";
 import { GameManager } from "../../game-manager";
-import * as eeee from "../Functions/ImageSwitching";
+import { ImageSwitching } from "../Functions/ImageSwitching";
+import { Functions } from "../Functions/Functions";
 //import { TextField } from "../../TextField";
-
-/*テキストフィールド使いませんでした。（エラー解決できませんでした）*/
 
 //成功数
 let successCount: number = 0;
@@ -81,8 +80,6 @@ export class SceneGame extends Scene {
       mistakeRamen(): void;
       gameOver(): void;
       gekikaraRefusal(): void;
-      returnCountDown(): number;
-      evaluationGive(): void;
       difficultyImageAnimation(): void;
       firstAnimation(): void;
       clearTextAnimation(): void;
@@ -187,7 +184,7 @@ export class SceneGame extends Scene {
             //タイムアウト状態の画像にする
             this.hasTimeOut = true;
             //ゲーム評価を与える処理
-            gameScene.evaluationGive();
+            evaluation = Functions.evaluationGive(successCount, evaluation);
             sceneChage();
           }
         }, 100);
@@ -254,22 +251,7 @@ export class SceneGame extends Scene {
         boy.boyNotEat.visible = true;
         this.deleteRamen();
       }
-      //クリア数に応じてカウントダウンの秒数を返す処理(難易度アップ)
-      public returnCountDown(): number {
-        let countTime: number;
-        if (successCount <= 20) {
-          countTime = 1;
-        } else if (successCount > 20 && successCount <= 50) {
-          countTime = 0.9;
-        } else if (successCount > 50 && successCount <= 100) {
-          countTime = 0.8;
-        } else if (successCount <= 200) {
-          countTime = 0.7;
-        } else {
-          countTime = 0.6;
-        }
-        return countTime;
-      }
+
       //ランダムにラーメンを表示するための処理
       private randomRamen(): number {
         const max: number = 4;
@@ -287,24 +269,6 @@ export class SceneGame extends Scene {
         ramen.ramenShio.visible = false;
         shuchusen.shuchusen.visible = false;
         don.don.visible = false;
-      }
-      //評価を決める処理
-      public evaluationGive(): void {
-        if (successCount === 0) {
-          evaluation = "E";
-        } else if (successCount <= 20) {
-          evaluation = "D";
-        } else if (successCount <= 50) {
-          evaluation = "C";
-        } else if (successCount <= 80) {
-          evaluation = "B";
-        } else if (successCount <= 100) {
-          evaluation = "A";
-        } else if (successCount <= 200) {
-          evaluation = "S";
-        } else {
-          evaluation = "SS";
-        }
       }
       //難易度アップを知らせるアニメーション
       public difficultyImageAnimation(): void {
@@ -514,7 +478,7 @@ export class SceneGame extends Scene {
     /*カウントダウンをスタートさせる*/
     const secondAction = () => {
       //クリア数に応じてカウントダウンの秒数を決める
-      let decreaseCountDown = gameScene.returnCountDown();
+      let decreaseCountDown = Functions.returnCountDown(successCount);
       //カウントダウンの開始
       gameScene.countDownStart(decreaseCountDown);
     };
@@ -525,7 +489,7 @@ export class SceneGame extends Scene {
       if (randomRamen === 0 && (keyCode === 37 || buttonCode === 37)) {
         gameScene.vibrationAnimation();
         //評価を与え、画像状態を切り替え
-        gameScene.evaluationGive();
+        evaluation = Functions.evaluationGive(successCount, evaluation);
         gameScene.gameOver();
         sceneChage();
       }
@@ -572,14 +536,14 @@ export class SceneGame extends Scene {
       ) {
         gameScene.vibrationAnimation();
         //ゲーム評価を与え、画像状態切り替え
-        gameScene.evaluationGive();
+        evaluation = Functions.evaluationGive(successCount, evaluation);
         gameScene.mistakeRamen();
         sceneChage();
       }
       //時間切れとなったときの処理　keyCodeとbuttonCodeの0は何も押していないか矢印キー以外を押したとみなす
       else if (gameScene.hasTimeOut || keyCode === 0 || buttonCode === 0) {
         //ゲーム評価を与える処理
-        gameScene.evaluationGive();
+        evaluation = Functions.evaluationGive(successCount, evaluation);
       }
     };
 
