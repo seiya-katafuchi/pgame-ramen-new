@@ -1,4 +1,8 @@
-export class Functions {
+import { Scene } from "../scene";
+
+let id: any;
+
+export class Functions extends Scene {
   //クリア数に応じてカウントダウンの秒数を返す処理(難易度アップ)
   public static returnCountDown(successCount: number): number {
     let countTime: number;
@@ -36,5 +40,13 @@ export class Functions {
       evaluation = "SS";
     }
     return evaluation;
+  }
+  //ランダムにラーメンを表示するための処理
+  public static randomRamen(): number {
+    const max: number = 4;
+    const min: number = 0;
+    let randomNumber: number =
+      Math.floor(Math.random() * (max + 1 - min)) + min;
+    return randomNumber;
   }
 }

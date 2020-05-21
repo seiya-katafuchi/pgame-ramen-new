@@ -3,7 +3,7 @@ import { SceneName } from "../scene-name";
 import { GameManager } from "../../game-manager";
 import { ImageSwitching } from "../Functions/ImageSwitching";
 import { Functions } from "../Functions/Functions";
-//import { TextField } from "../../TextField";
+import { Animations } from "../Functions/Animations";
 
 //成功数
 let successCount: number = 0;
@@ -26,8 +26,6 @@ export class SceneGame extends Scene {
     //game.tsのメソッドを使用
     //this.gameManager.game.pgameAdPopUp();
 
-    //const a = new TextField("0", new lib.nannidoup(), 0, 7);
-
     //カウントダウン(ゲーム中の)
     mc.CountDown.text = "1";
 
@@ -46,275 +44,116 @@ export class SceneGame extends Scene {
     //PC版の矢印キー入力回数制限
     let inputLimit: boolean = true;
 
-    interface GameSceneFormat {
-      boyNormal: createjs.Bitmap;
-      boyGameOver_1: createjs.Bitmap;
-      boyGameOver_2: createjs.Bitmap;
-      boyClear: createjs.Bitmap;
-      boyNotEat: createjs.Bitmap;
-      shopKeeper_1: createjs.Bitmap;
-      shopKeeper_2: createjs.Bitmap;
-      shopKeeperAngry: createjs.Bitmap;
-      ramenMiso: createjs.Bitmap;
-      ramenGekikara: createjs.Bitmap;
-      ramenTonkotsu: createjs.Bitmap;
-      ramenSyouyu: createjs.Bitmap;
-      ramenShio: createjs.Bitmap;
-      maru: createjs.Bitmap;
-      batsu: createjs.Bitmap;
-      gameOverBackScreen: createjs.Bitmap;
-      difficultyImage: createjs.Bitmap;
-      shuchusen: createjs.Bitmap;
-      don: createjs.Bitmap;
+    //男の子
+    const boyNormal: createjs.Bitmap = new createjs.Bitmap(
+      "../../../jsgame/images_pc/Boy1.png"
+    );
+    const boyGameOver_1: createjs.Bitmap = new createjs.Bitmap(
+      "../../../jsgame/images_pc/Boy-GameOver.png"
+    );
+    const boyGameOver_2: createjs.Bitmap = new createjs.Bitmap(
+      "../../../jsgame/images_pc/Boy-GameOver2.png"
+    );
+    const boyClear: createjs.Bitmap = new createjs.Bitmap(
+      "../../../jsgame/images_pc/Boy-Clear.png"
+    );
+    const boyNotEat: createjs.Bitmap = new createjs.Bitmap(
+      "../../../jsgame/images_pc/Boy-do-not-eat.png"
+    );
+    //店主
+    const shopKeeper_1: createjs.Bitmap = new createjs.Bitmap(
+      "../../../jsgame/images_pc/ShopKeeper1.png"
+    );
+    const shopKeeper_2: createjs.Bitmap = new createjs.Bitmap(
+      "../../../jsgame/images_pc/ShopKeeper2.png"
+    );
+    const shopKeeperAngry: createjs.Bitmap = new createjs.Bitmap(
+      "../../../jsgame/images_pc/ShopKeeper-Angry.png"
+    );
+    //ラーメンの画像
+    const ramenMiso: createjs.Bitmap = new createjs.Bitmap(
+      "../../../jsgame/images_pc/RamenMiso.png"
+    );
+    const ramenGekikara: createjs.Bitmap = new createjs.Bitmap(
+      "../../../jsgame/images_pc/RamenGekikara.png"
+    );
+    const ramenTonkotsu: createjs.Bitmap = new createjs.Bitmap(
+      "../../../jsgame/images_pc/RamenTonkotsu.png"
+    );
+    const ramenSyouyu: createjs.Bitmap = new createjs.Bitmap(
+      "../../../jsgame/images_pc/RamenSyouyu.png"
+    );
+    const ramenShio: createjs.Bitmap = new createjs.Bitmap(
+      "../../../jsgame/images_pc/RamenShio.png"
+    );
+    //マルバツの画像
+    const maru: createjs.Bitmap = new createjs.Bitmap(
+      "../../../jsgame/images_pc/Maru.png"
+    );
+    const batsu: createjs.Bitmap = new createjs.Bitmap(
+      "../../../jsgame/images_pc/Batsu.png"
+    );
+    //ゲームオーバー時のスクリーン
+    const gameOverBackScreen: createjs.Bitmap = new createjs.Bitmap(
+      "../../../jsgame/images_pc/GameOverBackScreen.png"
+    );
+    //集中線
+    const shuchusen: createjs.Bitmap = new createjs.Bitmap(
+      "../../../jsgame/images_pc/shuchu-sen-_black.png"
+    );
+    //ドン
+    const don: createjs.Bitmap = new createjs.Bitmap(
+      "../../../jsgame/images_pc/don.png"
+    );
+    //難易度アップの画像
+    const difficultyImage: createjs.Bitmap = new createjs.Bitmap(
+      "../../../jsgame/images_pc/nannidoupsheet.png"
+    );
+    //キーボード操作が有効かを判定
+    let isKeyDownEnabled: boolean = false;
+    //タイムアウトしたかを判定
+    let hasTimeOut: boolean = false;
+    //小数切り捨て用のカウント
+    let count: number = 0;
+    //タイマーのための変数
+    let id: any;
+    //キー入力の制限(有効中に一回しか押させないため)
+    let isKeyInputRestriction: boolean = true;
 
-      isKeyDownEnabled: boolean;
-      hasTimeOut: boolean;
-      isKeyInputRestriction: boolean;
-
-      count: number;
-      id: any;
-
-      countDownStart(countDownTime: number): void;
-      firstState(): number;
-      clearGame(): void;
-      mistakeRamen(): void;
-      gameOver(): void;
-      gekikaraRefusal(): void;
-      difficultyImageAnimation(): void;
-      firstAnimation(): void;
-      clearTextAnimation(): void;
-      scoreTextAnimation(score: number): void;
-      vibrationAnimation(): void;
-    }
-
-    /*クラスの組み方がなんかよくないと思います*/
-
-    //ゲームシーンのクラス
-    class GameScene implements GameSceneFormat {
-      //男の子
-      public boyNormal: createjs.Bitmap = new createjs.Bitmap(
-        "../../../jsgame/images_pc/Boy1.png"
-      );
-      public boyGameOver_1: createjs.Bitmap = new createjs.Bitmap(
-        "../../../jsgame/images_pc/Boy-GameOver.png"
-      );
-      public boyGameOver_2: createjs.Bitmap = new createjs.Bitmap(
-        "../../../jsgame/images_pc/Boy-GameOver2.png"
-      );
-      public boyClear: createjs.Bitmap = new createjs.Bitmap(
-        "../../../jsgame/images_pc/Boy-Clear.png"
-      );
-      public boyNotEat: createjs.Bitmap = new createjs.Bitmap(
-        "../../../jsgame/images_pc/Boy-do-not-eat.png"
-      );
-      //店主
-      public shopKeeper_1: createjs.Bitmap = new createjs.Bitmap(
-        "../../../jsgame/images_pc/ShopKeeper1.png"
-      );
-      public shopKeeper_2: createjs.Bitmap = new createjs.Bitmap(
-        "../../../jsgame/images_pc/ShopKeeper2.png"
-      );
-      public shopKeeperAngry: createjs.Bitmap = new createjs.Bitmap(
-        "../../../jsgame/images_pc/ShopKeeper-Angry.png"
-      );
-      //ラーメンの画像
-      public ramenMiso: createjs.Bitmap = new createjs.Bitmap(
-        "../../../jsgame/images_pc/RamenMiso.png"
-      );
-      public ramenGekikara: createjs.Bitmap = new createjs.Bitmap(
-        "../../../jsgame/images_pc/RamenGekikara.png"
-      );
-      public ramenTonkotsu: createjs.Bitmap = new createjs.Bitmap(
-        "../../../jsgame/images_pc/RamenTonkotsu.png"
-      );
-      public ramenSyouyu: createjs.Bitmap = new createjs.Bitmap(
-        "../../../jsgame/images_pc/RamenSyouyu.png"
-      );
-      public ramenShio: createjs.Bitmap = new createjs.Bitmap(
-        "../../../jsgame/images_pc/RamenShio.png"
-      );
-      //マルバツの画像
-      public maru: createjs.Bitmap = new createjs.Bitmap(
-        "../../../jsgame/images_pc/Maru.png"
-      );
-      public batsu: createjs.Bitmap = new createjs.Bitmap(
-        "../../../jsgame/images_pc/Batsu.png"
-      );
-      //ゲームオーバー時のスクリーン
-      public gameOverBackScreen: createjs.Bitmap = new createjs.Bitmap(
-        "../../../jsgame/images_pc/GameOverBackScreen.png"
-      );
-      //難易度アップを知らせる画像
-      public difficultyImage: createjs.Bitmap = new createjs.Bitmap(
-        "../../../jsgame/images_pc/nannidoupsheet.png"
-      );
-      //集中線
-      public shuchusen: createjs.Bitmap = new createjs.Bitmap(
-        "../../../jsgame/images_pc/shuchu-sen-_black.png"
-      );
-      //ドン
-      public don: createjs.Bitmap = new createjs.Bitmap(
-        "../../../jsgame/images_pc/don.png"
-      );
-      //キーボード操作が有効かを判定
-      public isKeyDownEnabled: boolean = false;
-      //タイムアウトしたかを判定
-      public hasTimeOut: boolean = false;
-      //小数切り捨て用のカウント
-      public count: number = 0;
-      //タイマーのための変数
-      public id: any;
-      //キー入力の制限(有効中に一回しか押させないため)
-      public isKeyInputRestriction: boolean = true;
-      public constructor() {}
-      //カウントダウンする処理
-      public countDownStart(countDownTime: number) {
-        //キー入力できるようにする
-        this.isKeyDownEnabled = true;
-        this.id = setInterval(() => {
-          countDownTime -= 0.1;
-          //小数第一位以下切り捨て
-          this.count = Math.round(countDownTime * 10) / 10;
-          mc.CountDown.text = `${this.count}`;
-          //gauge.scaleX = this.count;
-          if (countDownTime <= 0.1) {
-            //タイムアウト状態の画像に切り替える
-            this.timeOut();
-            clearInterval(this.id);
-            //タイムアウト状態の画像にする
-            this.hasTimeOut = true;
-            //ゲーム評価を与える処理
-            evaluation = Functions.evaluationGive(successCount, evaluation);
-            sceneChage();
-          }
-        }, 100);
-      }
-      //タイムアウトしたときの処理
-      private timeOut(): void {
-        //キー入力解除
-        this.isKeyDownEnabled = false;
-        //画像の切り替え
-        maru_batsu.batsu.visible = true;
-        shopKeeper.shopKeeperAngry.visible = true;
-        shopKeeper.shopKeeper_2.visible = false;
-        boy.boyGameOver_2.visible = true;
-        boy.boyNormal.visible = false;
-        backScreen_GameOver.gameOverBackScreen.visible = true;
-        shuchusen.shuchusen.visible = false;
-        don.don.visible = false;
-        gameScene.vibrationAnimation();
-      }
-      //最初の画像の状態と出すラーメンを決める
-      public firstState(): number {
-        maru_batsu.maru.visible = false;
-        shopKeeper.shopKeeper_2.visible = true;
-        shopKeeper.shopKeeper_1.visible = false;
-        boy.boyNormal.visible = true;
-        boy.boyClear.visible = false;
-        boy.boyNotEat.visible = false;
-        return this.randomRamen();
-      }
-      //ラーメンを食べたときの画像状態
-      public clearGame(): void {
-        maru_batsu.maru.visible = true;
-        shopKeeper.shopKeeper_2.visible = false;
-        shopKeeper.shopKeeper_1.visible = true;
-        boy.boyClear.visible = true;
-        boy.boyNormal.visible = false;
-        this.deleteRamen();
-      }
-      //ラーメンを食べなかったときの画像状態
-      public mistakeRamen(): void {
-        maru_batsu.batsu.visible = true;
-        shopKeeper.shopKeeper_2.visible = false;
-        shopKeeper.shopKeeperAngry.visible = true;
-        boy.boyGameOver_2.visible = true;
-        boy.boyNormal.visible = false;
-        backScreen_GameOver.gameOverBackScreen.visible = true;
-        this.deleteRamen();
-      }
-      //激辛ラーメン食べたときの画像の状態
-      public gameOver(): void {
-        maru_batsu.batsu.visible = true;
-        shopKeeper.shopKeeper_2.visible = false;
-        shopKeeper.shopKeeper_1.visible = true;
-        boy.boyGameOver_1.visible = true;
-        boy.boyNormal.visible = false;
-        backScreen_GameOver.gameOverBackScreen.visible = true;
-        this.deleteRamen();
-      }
-      //激辛ラーメンを食べなかったときの画像の状態
-      public gekikaraRefusal(): void {
-        maru_batsu.maru.visible = true;
-        shopKeeper.shopKeeper_2.visible = false;
-        shopKeeper.shopKeeper_1.visible = true;
-        boy.boyNotEat.visible = true;
-        this.deleteRamen();
-      }
-
-      //ランダムにラーメンを表示するための処理
-      private randomRamen(): number {
-        const max: number = 4;
-        const min: number = 0;
-        let randomNumber: number =
-          Math.floor(Math.random() * (max + 1 - min)) + min;
-        return randomNumber;
-      }
-      //ラーメンと集中線を消す処理
-      private deleteRamen(): void {
-        ramen.ramenMiso.visible = false;
-        ramen.ramenGekikara.visible = false;
-        ramen.ramenTonkotsu.visible = false;
-        ramen.ramenSyouyu.visible = false;
-        ramen.ramenShio.visible = false;
-        shuchusen.shuchusen.visible = false;
-        don.don.visible = false;
-      }
-      //難易度アップを知らせるアニメーション
-      public difficultyImageAnimation(): void {
-        createjs.Tween.get(this.difficultyImage)
-          .to({ y: 0 }, 1000)
-          .wait(2000)
-          .to({ y: -150 }, 1000);
-      }
-      //最初に行うアニメーション
-      public firstAnimation(): void {
-        createjs.Tween.get(containerBoy).to({ x: 0 }, 500);
-        createjs.Tween.get(containerShopKeeper).to({ x: 400 }, 500);
-        createjs.Tween.get(mc.startCountDownText)
-          .to({ alpha: 0.1 }, 999)
-          .to({ alpha: 1 }, 1)
-          .to({ alpha: 0.1 }, 999)
-          .to({ alpha: 1 }, 1)
-          .to({ alpha: 0.1 }, 999)
-          .to({ alpha: 1 }, 1)
-          .to({ alpha: 0.1 }, 999);
-      }
-      //テキストのアニメーション
-      public clearTextAnimation(): void {
-        addClearText.alpha = 1.0;
-        createjs.Tween.get(addClearText)
-          .to({ y: 50, alpha: 0 }, 600)
-          .to({ y: 70 }, 1);
-      }
-      public scoreTextAnimation(score: number): void {
-        addScoreText.alpha = 1.0;
-        addScoreText.text = `+${score}`;
-        createjs.Tween.get(addScoreText)
-          .to({ y: 50, alpha: 0 }, 600)
-          .to({ y: 70 }, 1);
-      }
-      //ゲームオーバー時のアニメーション
-      public vibrationAnimation(): void {
-        const xValue: number = 30;
-        const time: number = 50;
-        createjs.Tween.get(containerBoy, { loop: true })
-          .to({ x: -xValue }, time)
-          .to({ x: xValue }, time);
-      }
-    }
-    //eeee.ImageSwitching.a();
-    const gameScene = new GameScene();
+    //カウントダウンの処理
+    const countDownStart = (countDownTime: number) => {
+      //キー入力できるようにする
+      isKeyDownEnabled = true;
+      id = setInterval(() => {
+        countDownTime -= 0.1;
+        //小数第一位以下切り捨て
+        count = Math.round(countDownTime * 10) / 10;
+        mc.CountDown.text = `${count}`;
+        //gauge.scaleX = this.count;
+        if (countDownTime <= 0.1) {
+          //キー入力解除
+          isKeyDownEnabled = false;
+          //タイムアウト状態の画像に切り替える
+          ImageSwitching.timeOutImageChange(
+            batsu,
+            shopKeeperAngry,
+            shopKeeper_2,
+            boyGameOver_2,
+            boyNormal,
+            gameOverBackScreen,
+            shuchusen,
+            don
+          );
+          Animations.vibrationAnimation(containerBoy);
+          clearInterval(id);
+          //タイムアウト状態の画像にする
+          hasTimeOut = true;
+          //ゲーム評価を与える処理
+          evaluation = Functions.evaluationGive(successCount, evaluation);
+          sceneChage();
+        }
+      }, 100);
+    };
 
     //クリア時のテキストのアニメーション
     let addClearText: createjs.Text = new createjs.Text(
@@ -337,26 +176,24 @@ export class SceneGame extends Scene {
     this.sceneContainer.addChild(addScoreText);
 
     //ラーメン
-    const ramen = new GameScene();
     const containerRamen: createjs.Container = new createjs.Container();
     containerRamen.scaleX = 0.35;
     containerRamen.scaleY = 0.35;
     containerRamen.x = 250;
     containerRamen.y = 200;
     this.sceneContainer.addChild(containerRamen);
-    containerRamen.addChild(ramen.ramenMiso);
-    containerRamen.addChild(ramen.ramenGekikara);
-    containerRamen.addChild(ramen.ramenTonkotsu);
-    containerRamen.addChild(ramen.ramenSyouyu);
-    containerRamen.addChild(ramen.ramenShio);
-    ramen.ramenMiso.visible = false;
-    ramen.ramenGekikara.visible = false;
-    ramen.ramenTonkotsu.visible = false;
-    ramen.ramenSyouyu.visible = false;
-    ramen.ramenShio.visible = false;
+    containerRamen.addChild(ramenMiso);
+    containerRamen.addChild(ramenGekikara);
+    containerRamen.addChild(ramenTonkotsu);
+    containerRamen.addChild(ramenSyouyu);
+    containerRamen.addChild(ramenShio);
+    ramenMiso.visible = false;
+    ramenGekikara.visible = false;
+    ramenTonkotsu.visible = false;
+    ramenSyouyu.visible = false;
+    ramenShio.visible = false;
 
     //店主
-    const shopKeeper = new GameScene();
     const containerShopKeeper: createjs.Container = new createjs.Container();
     containerShopKeeper.scaleX = 0.8;
     containerShopKeeper.scaleY = 0.8;
@@ -364,23 +201,21 @@ export class SceneGame extends Scene {
     containerShopKeeper.x = -150;
     containerShopKeeper.y = 17.5;
     this.sceneContainer.addChild(containerShopKeeper);
-    containerShopKeeper.addChild(shopKeeper.shopKeeper_1);
-    containerShopKeeper.addChild(shopKeeper.shopKeeper_2);
-    containerShopKeeper.addChild(shopKeeper.shopKeeperAngry);
-    shopKeeper.shopKeeper_1.visible = true;
-    shopKeeper.shopKeeper_1.x = 20;
-    shopKeeper.shopKeeper_2.visible = false;
-    shopKeeper.shopKeeper_2.x = -25;
-    shopKeeper.shopKeeperAngry.visible = false;
-    shopKeeper.shopKeeperAngry.x = 10;
+    containerShopKeeper.addChild(shopKeeper_1);
+    containerShopKeeper.addChild(shopKeeper_2);
+    containerShopKeeper.addChild(shopKeeperAngry);
+    shopKeeper_1.visible = true;
+    shopKeeper_1.x = 20;
+    shopKeeper_2.visible = false;
+    shopKeeper_2.x = -25;
+    shopKeeperAngry.visible = false;
+    shopKeeperAngry.x = 10;
 
     //バックスクリーン
-    const backScreen_GameOver = new GameScene();
-    this.sceneContainer.addChild(backScreen_GameOver.gameOverBackScreen);
-    backScreen_GameOver.gameOverBackScreen.visible = false;
+    this.sceneContainer.addChild(gameOverBackScreen);
+    gameOverBackScreen.visible = false;
 
     //男の子
-    const boy = new GameScene();
     const containerBoy: createjs.Container = new createjs.Container();
     containerBoy.scaleX = 0.8;
     containerBoy.scaleY = 0.8;
@@ -388,109 +223,121 @@ export class SceneGame extends Scene {
     containerBoy.x = 640;
     containerBoy.y = 240;
     this.sceneContainer.addChild(containerBoy);
-    containerBoy.addChild(boy.boyNormal);
-    containerBoy.addChild(boy.boyGameOver_1);
-    containerBoy.addChild(boy.boyGameOver_2);
-    containerBoy.addChild(boy.boyClear);
-    containerBoy.addChild(boy.boyNotEat);
-    boy.boyNormal.visible = true;
-    boy.boyNormal.x = 30;
-    boy.boyGameOver_1.visible = false;
-    boy.boyGameOver_1.x = -90;
-    boy.boyGameOver_1.y = -80;
-    boy.boyGameOver_2.visible = false;
-    boy.boyGameOver_2.x = 30;
-    boy.boyGameOver_2.y = -60;
-    boy.boyClear.visible = false;
-    boy.boyClear.y = -60;
-    boy.boyNotEat.visible = false;
-    boy.boyNotEat.x = 30;
+    containerBoy.addChild(boyNormal);
+    containerBoy.addChild(boyGameOver_1);
+    containerBoy.addChild(boyGameOver_2);
+    containerBoy.addChild(boyClear);
+    containerBoy.addChild(boyNotEat);
+    boyNormal.visible = true;
+    boyNormal.x = 30;
+    boyGameOver_1.visible = false;
+    boyGameOver_1.x = -90;
+    boyGameOver_1.y = -80;
+    boyGameOver_2.visible = false;
+    boyGameOver_2.x = 30;
+    boyGameOver_2.y = -60;
+    boyClear.visible = false;
+    boyClear.y = -60;
+    boyNotEat.visible = false;
+    boyNotEat.x = 30;
 
     //マルバツ
-    const maru_batsu = new GameScene();
     const containerMaruBatsu: createjs.Container = new createjs.Container();
     containerMaruBatsu.x = 160;
     //元々50↓
     containerMaruBatsu.y = 100;
     this.sceneContainer.addChild(containerMaruBatsu);
-    containerMaruBatsu.addChild(maru_batsu.maru);
-    containerMaruBatsu.addChild(maru_batsu.batsu);
-    maru_batsu.batsu.x = 25;
-    maru_batsu.batsu.y = 25;
-    maru_batsu.maru.visible = false;
-    maru_batsu.batsu.visible = false;
+    containerMaruBatsu.addChild(maru);
+    containerMaruBatsu.addChild(batsu);
+    batsu.x = 25;
+    batsu.y = 25;
+    maru.visible = false;
+    batsu.visible = false;
 
     //難易度アップを知らせる画像
-    const difficultyImage = new GameScene();
-    difficultyImage.difficultyImage.y = -150;
-    this.sceneContainer.addChild(difficultyImage.difficultyImage);
+    difficultyImage.y = -150;
+    this.sceneContainer.addChild(difficultyImage);
 
     //集中線の画像
-    const shuchusen = new GameScene();
-    shuchusen.shuchusen.scaleX = 0.5;
-    shuchusen.shuchusen.scaleY = 0.384;
-    shuchusen.shuchusen.visible = false;
-    this.sceneContainer.addChild(shuchusen.shuchusen);
+    shuchusen.scaleX = 0.5;
+    shuchusen.scaleY = 0.384;
+    shuchusen.visible = false;
+    this.sceneContainer.addChild(shuchusen);
 
     //ドンの画像
-    const don = new GameScene();
-    don.don.visible = false;
-    don.don.x = 270;
-    don.don.y = 150;
-    this.sceneContainer.addChild(don.don);
-
-    // ゲージ
-    /*let gauge = new createjs.Shape();
-    gauge.graphics.beginFill("Green"); // 緑色で描画するように設定
-    gauge.graphics.drawRect(0, 0, 200, 25); // 長方形を描画
-    gauge.x = 160;
-    gauge.y = 50;
-    this.sceneContainer.addChild(gauge);*/
+    don.visible = false;
+    don.x = 270;
+    don.y = 150;
+    this.sceneContainer.addChild(don);
 
     let randomRamen2: number;
 
     /*スタートカウントダウン後の最初の動作　画像の状態を切り替え、出すラーメンを決める*/
     const firstAction = () => {
+      ImageSwitching.firstState(
+        maru,
+        shopKeeper_2,
+        shopKeeper_1,
+        boyNormal,
+        boyClear,
+        boyNotEat
+      );
       //出すラーメンをランダムに決めている
-      randomRamen2 = gameScene.firstState();
+      randomRamen2 = Functions.randomRamen();
       switch (randomRamen2) {
         case 0:
-          ramen.ramenGekikara.visible = true;
+          ramenGekikara.visible = true;
           break;
         case 1:
-          ramen.ramenMiso.visible = true;
+          ramenMiso.visible = true;
           break;
         case 2:
-          ramen.ramenTonkotsu.visible = true;
+          ramenTonkotsu.visible = true;
           break;
         case 3:
-          ramen.ramenSyouyu.visible = true;
+          ramenSyouyu.visible = true;
           break;
         case 4:
-          ramen.ramenShio.visible = true;
+          ramenShio.visible = true;
           break;
       }
-      shuchusen.shuchusen.visible = true;
-      don.don.visible = true;
-      createjs.Tween.get(don).to({ y: 100, alpha: 0 }, 500).to({ y: 150 }, 1);
-      //gameScene.donTextAnimation();
+      shuchusen.visible = true;
+      don.visible = true;
+      //ドンのアニメーション
+      //createjs.Tween.get(don).to({ y: 100, alpha: 0 }, 500).to({ y: 150 }, 1);
     };
     /*カウントダウンをスタートさせる*/
     const secondAction = () => {
       //クリア数に応じてカウントダウンの秒数を決める
       let decreaseCountDown = Functions.returnCountDown(successCount);
       //カウントダウンの開始
-      gameScene.countDownStart(decreaseCountDown);
+      countDownStart(decreaseCountDown);
     };
 
     //押した矢印キーと出されたラーメンによってクリアかゲームオーバーかを判定する関数
     const judgment = (randomRamen: number) => {
       //激辛ラーメンを食べたときの処理
       if (randomRamen === 0 && (keyCode === 37 || buttonCode === 37)) {
-        gameScene.vibrationAnimation();
+        Animations.vibrationAnimation(containerBoy);
         //評価を与え、画像状態を切り替え
         evaluation = Functions.evaluationGive(successCount, evaluation);
-        gameScene.gameOver();
+        ImageSwitching.gameOver(
+          batsu,
+          shopKeeper_2,
+          shopKeeper_1,
+          boyGameOver_1,
+          boyNormal,
+          gameOverBackScreen
+        );
+        ImageSwitching.deleteRamenShuchusen(
+          ramenMiso,
+          ramenGekikara,
+          ramenTonkotsu,
+          ramenSyouyu,
+          ramenShio,
+          shuchusen,
+          don
+        );
         sceneChage();
       }
       //激辛ラーメンを食べなかったときの処理
@@ -499,9 +346,23 @@ export class SceneGame extends Scene {
         successCount++;
         mc.SuccessCount.text = `${successCount}`;
         //クリア数を増やすアニメーション
-        gameScene.clearTextAnimation();
+        Animations.clearTextAnimation(addClearText);
         //激辛ラーメンを食べないと選択したときの画像状態に切り替え
-        gameScene.gekikaraRefusal();
+        ImageSwitching.gekikaraRefusal(
+          maru,
+          shopKeeper_2,
+          shopKeeper_1,
+          boyNotEat
+        );
+        ImageSwitching.deleteRamenShuchusen(
+          ramenMiso,
+          ramenGekikara,
+          ramenTonkotsu,
+          ramenSyouyu,
+          ramenShio,
+          shuchusen,
+          don
+        );
         reset_animation();
       }
       //激辛ラーメン以外を食べたときの処理(クリアの時)
@@ -515,15 +376,30 @@ export class SceneGame extends Scene {
         //クリア数を加算
         successCount++;
         //スコアの計算　止めた秒数 * 1000
-        scoreText += gameScene.count * 1000;
+        scoreText += count * 1000;
         mc.SuccessCount.text = `${successCount}`;
         mc.ScoreText.text = `${scoreText}`;
         //クリア数を増やすアニメーション
-        gameScene.clearTextAnimation();
+        Animations.clearTextAnimation(addClearText);
         //スコアを増やすアニメーション
-        gameScene.scoreTextAnimation(gameScene.count * 1000);
+        Animations.scoreTextAnimation(count * 1000, addScoreText);
         //クリアしたときの画像状態に切り替え
-        gameScene.clearGame();
+        ImageSwitching.clearGame(
+          maru,
+          shopKeeper_2,
+          shopKeeper_1,
+          boyClear,
+          boyNormal
+        );
+        ImageSwitching.deleteRamenShuchusen(
+          ramenMiso,
+          ramenGekikara,
+          ramenTonkotsu,
+          ramenSyouyu,
+          ramenShio,
+          shuchusen,
+          don
+        );
         reset_animation();
       }
       //激辛ラーメン以外を食べなかった時の処理
@@ -534,14 +410,30 @@ export class SceneGame extends Scene {
           randomRamen === 4) &&
         (keyCode === 39 || buttonCode === 39)
       ) {
-        gameScene.vibrationAnimation();
+        Animations.vibrationAnimation(containerBoy);
         //ゲーム評価を与え、画像状態切り替え
         evaluation = Functions.evaluationGive(successCount, evaluation);
-        gameScene.mistakeRamen();
+        ImageSwitching.mistakeRamen(
+          batsu,
+          shopKeeper_2,
+          shopKeeperAngry,
+          boyGameOver_2,
+          boyNormal,
+          gameOverBackScreen
+        );
+        ImageSwitching.deleteRamenShuchusen(
+          ramenMiso,
+          ramenGekikara,
+          ramenTonkotsu,
+          ramenSyouyu,
+          ramenShio,
+          shuchusen,
+          don
+        );
         sceneChage();
       }
       //時間切れとなったときの処理　keyCodeとbuttonCodeの0は何も押していないか矢印キー以外を押したとみなす
-      else if (gameScene.hasTimeOut || keyCode === 0 || buttonCode === 0) {
+      else if (hasTimeOut || keyCode === 0 || buttonCode === 0) {
         //ゲーム評価を与える処理
         evaluation = Functions.evaluationGive(successCount, evaluation);
       }
@@ -560,13 +452,13 @@ export class SceneGame extends Scene {
         //アニメーションのため4秒処理を止める
         waitTime = 4000;
         //難易度アップを知らせるアニメーション
-        difficultyImage.difficultyImageAnimation();
+        Animations.difficultyImageAnimation(difficultyImage);
       } else {
         waitTime = 600;
       }
       setTimeout(() => {
         //キー入力回数制限を解除
-        gameScene.isKeyInputRestriction = true;
+        isKeyInputRestriction = true;
         //PC版のキー入力回数制限を解除
         inputLimit = true;
         //何も押していない状態に戻す
@@ -590,7 +482,11 @@ export class SceneGame extends Scene {
       }, 3000);
     };
 
-    gameScene.firstAnimation();
+    Animations.firstAnimation(
+      containerBoy,
+      containerShopKeeper,
+      mc.startCountDownText
+    );
 
     //ゲームスタート時のカウントダウン(一番最初に実行される)
     let startId = setInterval(() => {
@@ -624,17 +520,17 @@ export class SceneGame extends Scene {
       containerMaruBatsu.y += 120;
       containerRamen.y += 200;
       containerShopKeeper.y += 116;
-      backScreen_GameOver.gameOverBackScreen.scaleY = 1.6;
+      gameOverBackScreen.scaleY = 1.6;
       //左ボタン
       mc.leftbutton.addEventListener("click", () => {
         //カウントダウン中にしか押せないようにする
-        if (gameScene.isKeyDownEnabled) {
+        if (isKeyDownEnabled) {
           //一回しか押せないようにする
-          if (gameScene.isKeyInputRestriction) {
+          if (isKeyInputRestriction) {
             buttonCode = 37;
-            gameScene.isKeyInputRestriction = false;
-            gameScene.isKeyDownEnabled = false;
-            clearInterval(gameScene.id);
+            isKeyInputRestriction = false;
+            isKeyDownEnabled = false;
+            clearInterval(id);
             judgment(randomRamen2);
           }
         }
@@ -642,13 +538,13 @@ export class SceneGame extends Scene {
       //右ボタン
       mc.rightbutton.addEventListener("click", () => {
         //カウントダウン中にしか押せないようにする
-        if (gameScene.isKeyDownEnabled) {
+        if (isKeyDownEnabled) {
           //一回しか押せないようにする
-          if (gameScene.isKeyInputRestriction) {
+          if (isKeyInputRestriction) {
             buttonCode = 39;
-            gameScene.isKeyInputRestriction = false;
-            gameScene.isKeyDownEnabled = false;
-            clearInterval(gameScene.id);
+            isKeyInputRestriction = false;
+            isKeyDownEnabled = false;
+            clearInterval(id);
             judgment(randomRamen2);
           }
         }
@@ -666,26 +562,26 @@ export class SceneGame extends Scene {
         }
         if (keyCode === 37) {
           //カウントダウン中のみ押せるようにする
-          if (!gameScene.isKeyDownEnabled) {
+          if (!isKeyDownEnabled) {
             event.preventDefault();
           }
           //一回しか押せないようにする
-          else if (gameScene.isKeyInputRestriction) {
-            gameScene.isKeyInputRestriction = false;
-            gameScene.isKeyDownEnabled = false;
-            clearInterval(gameScene.id);
+          else if (isKeyInputRestriction) {
+            isKeyInputRestriction = false;
+            isKeyDownEnabled = false;
+            clearInterval(id);
             judgment(randomRamen2);
           }
         } else if (keyCode === 39) {
           //カウントダウン中のみ押せるようにする
-          if (!gameScene.isKeyDownEnabled) {
+          if (!isKeyDownEnabled) {
             event.preventDefault();
           }
           //一回しか押せないようにする
-          else if (gameScene.isKeyInputRestriction) {
-            gameScene.isKeyInputRestriction = false;
-            gameScene.isKeyDownEnabled = false;
-            clearInterval(gameScene.id);
+          else if (isKeyInputRestriction) {
+            isKeyInputRestriction = false;
+            isKeyDownEnabled = false;
+            clearInterval(id);
             judgment(randomRamen2);
           }
         }

@@ -1,6 +1,7 @@
 import { Scene } from "../scene";
 import { SceneName } from "../scene-name";
 import { GameManager } from "../../game-manager";
+import { Animations } from "../Functions/Animations";
 //import {TextField} from "../../TextField";
 
 export class SceneTop extends Scene {
@@ -13,44 +14,13 @@ export class SceneTop extends Scene {
 
     const mc: lib.PageTop = new lib.PageTop();
     this.sceneContainer.addChild(mc);
-
-    interface TopSceneFormat {
-      animationDown(animationSpeed: number): void;
-      animationUp(animationSpeed: number): void;
-    }
-
-    class TopScene implements TopSceneFormat {
-      //ヘルプシートを取得
-      private helpsheet: createjs.MovieClip = mc.helpsheet;
-
-      //アニメーション上下の切り替え
-      public hasAnimation: boolean = true;
-
-      public constructor() {}
-
-      //ヘルプシートをダウンさせる
-      public animationDown(coordinate: number): void {
-        createjs.Tween.get(this.helpsheet).to(
-          {
-            y: coordinate,
-          },
-          1500,
-          createjs.Ease.bounceOut
-        );
-      }
-
-      //ヘルプシートをアップさせる
-      public animationUp(coordinate: number): void {
-        createjs.Tween.get(this.helpsheet).to(
-          {
-            y: -coordinate,
-          },
-          1500
-        );
-      }
-    }
-
-    const topScene = new TopScene();
+    //ヘルプシートを取得
+    const helpsheet: createjs.MovieClip = mc.helpsheet;
+    //pc版sp版それぞれのアニメーション移動量
+    const animationMoveForSP: number = 480;
+    const animationMoveForPC: number = 220;
+    //上下アニメーション切り替え用
+    let hasAnimation: boolean = true;
 
     // タッチ操作をサポートしているブラウザーならば
     if (createjs.Touch.isSupported() == true) {
@@ -59,12 +29,12 @@ export class SceneTop extends Scene {
         this.gameManager.sceneChange(SceneName.Game);
       });
       mc.helpbutton.on("click", () => {
-        if (topScene.hasAnimation) {
-          topScene.animationDown(480);
-          topScene.hasAnimation = false;
+        if (hasAnimation) {
+          Animations.animationDown(animationMoveForSP, helpsheet);
+          hasAnimation = false;
         } else {
-          topScene.animationUp(480);
-          topScene.hasAnimation = true;
+          Animations.animationUp(animationMoveForSP, helpsheet);
+          hasAnimation = true;
         }
       });
       // タッチ操作を有効にします。
@@ -76,12 +46,12 @@ export class SceneTop extends Scene {
       });
       //ヘルプボタン
       mc.helpbutton.on("click", () => {
-        if (topScene.hasAnimation) {
-          topScene.animationDown(220);
-          topScene.hasAnimation = false;
+        if (hasAnimation) {
+          Animations.animationDown(animationMoveForPC, helpsheet);
+          hasAnimation = false;
         } else {
-          topScene.animationUp(220);
-          topScene.hasAnimation = true;
+          Animations.animationUp(animationMoveForPC, helpsheet);
+          hasAnimation = true;
         }
       });
     }

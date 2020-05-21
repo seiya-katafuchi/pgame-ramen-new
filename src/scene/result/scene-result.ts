@@ -3,6 +3,7 @@ import { SceneName } from "../scene-name";
 import { GameManager } from "../../game-manager";
 /*追加*/
 import { SceneGame } from "../game/scene-game";
+import { Animations } from "../Functions/Animations";
 
 export class SceneResult extends Scene {
   constructor(gameManager: GameManager) {
@@ -11,6 +12,7 @@ export class SceneResult extends Scene {
 
   main(): void {
     const mc: lib.PageResult = new lib.PageResult();
+    const resultSheet: createjs.MovieClip = mc.resultSheet;
     this.sceneContainer.addChild(mc);
     //ゲームシーンのメソッドを使用できるように
     const sceneGame: SceneGame = new SceneGame(this.gameManager);
@@ -33,39 +35,22 @@ export class SceneResult extends Scene {
     mc.resultSheet.ScoreText.text = `${score}`;
     mc.resultSheet.evaluation.text = evaluation;
 
-    interface ResultSceneFormat {
-      animationDown(coordinate: number): void;
-    }
-
-    class ResultScene implements ResultSceneFormat {
-      //リザルトシートを取得
-      private resultSheet: createjs.MovieClip = mc.resultSheet;
-
-      public constructor() {}
-
-      //アニメーションのメソッド
-      public animationDown(coordinate: number): void {
-        setTimeout(() => {
-          createjs.Tween.get(this.resultSheet).to(
-            {
-              y: coordinate,
-            },
-            1500,
-            createjs.Ease.bounceOut
-          );
-        }, 1000);
-      }
-    }
-
-    const resultScene = new ResultScene();
+    //pc版sp版それぞれのアニメーション移動量
+    const animationMoveForSP: number = 400;
+    const animationMoveForPC: number = 200;
 
     // タッチ操作をサポートしているブラウザーならば
     if (createjs.Touch.isSupported() == true) {
-      resultScene.animationDown(400);
+      setTimeout(() => {
+        Animations.animationDown(animationMoveForSP, resultSheet);
+      }, 1000);
+
       // タッチ操作を有効にします。
       createjs.Touch.enable(this.gameManager.stage);
     } else {
-      resultScene.animationDown(200);
+      setTimeout(() => {
+        Animations.animationDown(animationMoveForPC, resultSheet);
+      }, 1000);
     }
 
     //ゲームシーンに遷移
